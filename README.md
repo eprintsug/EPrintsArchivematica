@@ -1,5 +1,5 @@
 # EPrints - Archivematica Integration
-Digital Preservation through EPrints-Archivematica Integration - An EPrints export plugin to Archivematica
+Digital Preservation through EPrints-Archivematica Integration - An EPrints export plugin for contents to be preserved with Archivematica
 
 The EPrints-Archivematica integration proposal was presented at Archivematica Camp and OR2018 in Bozeman.
 The OR2018 presentation is available here:
