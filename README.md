@@ -19,8 +19,12 @@ folder, and a derivatives folder containing any derivative access files that wer
 EPrints, such as thumbnail images, audio access files, video access files. Bags are moved to
 specified shared storage location.
 
+![Eprint Export Folder Structure, before bagging](https://raw.githubusercontent.com/photomedia/EPrintsArchivematica/master/eprint-export-folder-structure.png)
+
 * The following would be the structure of the data folder:
 eprintid-XXXXX -> documents -> documentid-XXXXX -> files -> fileid-XXXXX -> folder# -> filename
+
+![Eprint Export Folder Structure - Data Folder Structure](https://raw.githubusercontent.com/photomedia/EPrintsArchivematica/master/eprint-export-folder-strcture-data-folder-structure.png)
 
 * The following would be the structure of the derivatives folder:
 fileid-XXXXX -> folder# -> filename
