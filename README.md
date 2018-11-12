@@ -23,11 +23,11 @@ export and generates the exports in a directory structure optimized for [Archive
 
 Transfers are moved to a specified shared storage location, where they can be picked up by 
 
-![Eprint Export Folder Structure](https://raw.githubusercontent.com/photomedia/EPrintsArchivematica/master/eprint-export-folder-structure.png)
+![Eprint Export Folder Structure](https://github.com/photomedia/EPrintsArchivematica/blob/master/eprint-export-folder-structure.png)
 
 * The following would be the structure of the documents folder:
 
-![Eprint Export Folder Structure - Documents](https://raw.githubusercontent.com/photomedia/EPrintsArchivematica/master/eprint-export-documents-folder-structure.png)
+![Eprint Export Folder Structure - Documents](https://github.com/photomedia/EPrintsArchivematica/blob/master/eprint-export-documents-folder-structure.png)
 
 * The following would be the structure of the derivatives folder:
 
