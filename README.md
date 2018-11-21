@@ -37,3 +37,15 @@ Transfers are moved to a specified shared storage location.
 * Archivematica's [Automation Tools](https://github.com/artefactual/automation-tools) monitors shared storage for new bag, creates transfers/ingests in Archivematica according to a user-defined processing configuration, and then stores AIPs in archival storage.
 
 This integration is currently in the technical specification phase.
+
+# Implementation details
+
+## Checksum manifest
+
+The `metadata/checksum.md5` file should follow the specifications detailed in the [Archivematica documentation for creating a transfer with existing checksums](https://www.archivematica.org/en/docs/archivematica-1.8/user-manual/transfer/transfer/#create-a-transfer-with-existing-checksums).
+
+Specifically, in this implementation, each line of the `checksum.md5` manifest should contain the md5 hash value for a file in the `objects` directory, followed by a space, followed by the relative path to the file from the `checksum.md5` file itself.
+
+Example:
+
+`2121dca88ad7f701d3f3e2d041004a56 ../objects/documents/my-doc.pdf`
