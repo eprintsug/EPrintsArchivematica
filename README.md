@@ -68,32 +68,22 @@ For files with no MD5 value in the EPrints database:
 
 Plugin configuration file will include a list of metadata elements who's change would flag an eprint as in need of preservation. For example:
 
-$c->{DPExport}= 
-{
-	trigger_fields => [
-		{ meta_fields => [ "title" ] },
-		{ meta_fields => [ "creators_name" ] },
-		{ meta_fields => [ "abstract" ] },
-		{ meta_fields => [ "date" ] },
-        ]
-}
+$c->{DPExport}= {trigger_fields => [{ meta_fields => [ "title" ] }]}
 
 In addition, the configuration file will include a list of trigger_events that take place on an eprint which flag it as in need of preservation.  For example:
 
-$c->{DPExport}= 
-{
-	trigger_events => [
-		{ events => ["FilesModified"] },
-        ]
-}
+$c->{DPExport}= {trigger_events => [{ events => ["FilesModified"] }]}
 
 It should be possible to configure to flag an item for preservation every time it is moved to "archive" (either from an event or through the appearance of a "datestamp" meta_field).
 
 There should be a command line bin script that will export entire "live" archive dataset, or a list of eprintIDs.
 
-Lastly, the configuration file should specify if and when the preservation actions (preservation of eprints flagged as in need of preservation) should be performed 
+The configuration file should specify if the preservation actions (preservation of eprints flagged as in need of preservation) should be performed in batches or asap (as soon as change occurs):
 
 $c->{DPExport}=>{perform_preservation} = asap|batch
-$c->{DPExport}=>{perform_preservation_batch} = use cront time string format to specify time
+
+In addition, an option should specify when the batch processing should take place:
+
+$c->{DPExport}=>{perform_preservation_batch} = #use cron time string format to specify time
 
 Batch process all eprints flagged for preservation at the same time each night/week/month/year
