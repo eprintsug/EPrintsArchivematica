@@ -49,3 +49,11 @@ Specifically, in this implementation, each line of the `checksum.md5` manifest s
 Example:
 
 `2121dca88ad7f701d3f3e2d041004a56 ../objects/documents/my-doc.pdf`
+
+For files with MD5 values already recorded in the EPrints database, use these values in the manifest rather than generating a new MD5 from the file on disk.
+
+For files with no MD5 value in the EPrints database:
+
+* Generate a new MD5 from the file on disk
+* Write the MD5 to the EPrints database
+* Write the MD5 to the `checksum.md5` manifest
