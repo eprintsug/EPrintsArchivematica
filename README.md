@@ -56,13 +56,14 @@ Example:
 
 `2121dca88ad7f701d3f3e2d041004a56 ../objects/documents/my-doc.pdf`
 
-For files with MD5 values already recorded in the EPrints database, use these values in the manifest rather than generating a new MD5 from the file on disk.
+For files with MD5 values already recorded in the EPrints database, use these values in the manifest.  For these values already recorded in EPrints database, they should be checked (ie., recalculated for the file and compared to what is stored in EPrints) signalling an error if there is a mismatch.  These errors indicate that file corruption may have already taken place.  
 
 For files with no MD5 value in the EPrints database:
 
 * Generate a new MD5 from the file on disk
 * Write the MD5 to the EPrints database
 * Write the MD5 to the `checksum.md5` manifest
+
 
 ## Preservation Triggers
 
