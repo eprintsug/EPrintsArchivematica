@@ -64,6 +64,9 @@ For files with no MD5 value in the EPrints database:
 * Write the MD5 to the EPrints database
 * Write the MD5 to the `checksum.md5` manifest
 
+## Preservation Management Screen
+
+An EPrintsArchivematica preservation management screen allows the administrator to browse eprints, including by last exported date, and export status (success or failure - with reason).  For example, an eprint fails the checksum rechecking prior to export  and so is not exported, or is exported with new checksum.
 
 ## Preservation Triggers
 
