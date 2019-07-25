@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='utf-8'?>
+<epm xmlns='http://eprints.org/ep2/data/2.0' id='/id/epm/EPrintsArchivematica'>
+  <epmid>EPrintsArchivematica</epmid>
+  <uri>/id/epm/EPrintsArchivematica</uri>
+  <documents>
+    <document>
+      <files>
+        <file>
+          <filename>epm/EPrintsArchivematica/bin/process_transfers</filename>
+          <mime_type>text/x-perl</mime_type>
+          <hash>7a946726418cf574de1342eee5dc60e6</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>2454</filesize>
+          <data encoding='base64'>IyEvdXNyL2Jpbi9wZXJsIC13Cgp1c2UgRmluZEJpbjsKdXNlIGxpYiAiJEZpbmRCaW46OkJpbi8u
+Li8uLi8uLi9wZXJsX2xpYiI7Cgo9cG9kCgo9aGVhZDEgTkFNRQoKQjxwcm9jZXNzX3RyYW5zZmVy
+cz4gLSBGaW5kIEFyY2hpdmVtYXRpY2EgcmVjb3JkcyB3aGljaCBuZWVkIG5ldyB0cmFuc2ZlcnMg
+Y3JlYXRpbmcgZm9yIHRoZWlyIEVQcmludC4KCj1oZWFkMSBTWU5PUFNJUwoKQjxwcm9jZXNzX3Ry
+YW5zZmVycz4gSTxyZXBvc2l0b3J5X2lkPgoKPWhlYWQxIERFU0NSSVBUSU9OCgpUaGlzIHNjcmlw
+dCBsb29rcyBmb3IgYW55IEFyY2hpdmVtYXRhIHJlY29yZHMgd2hlcmUgbmV3X3RyYW5zZmVyIGlz
+IHNldCB0byB0cnVlIGFuZCB0aGVuIApjcmVhdGVzIGEgbmV3IEFyY2hpdmVtdGFpY2EgdHJhbnNm
+ZXIgZm9yIHRoZSBjb3JyZXNwb25kaW5nIEVQcmludCB1c2luZyB0aGUgQXJjaGl2ZW1hdGljYSAK
+ZXhwb3J0IHBsdWdpbi4KCkl0IHNob3VsZCBiZSBydW4gdmlhIGEgY3JvbmpvYiBzbyB0aGF0IG5l
+dyBBcmNoaXZlbWF0aWNhIHRyYW5zZmVycyBhcmUgY3JlYXRlZCBwZXJpb2RpY2FsbHkKYXMgbmVl
+ZGVkIChidXQgbm90IGluIHN1Y2ggYSB3YXkgdGhhdCBvdmVyd2hlbG1zIHRoZSByZXBvc2l0b3J5
+ISkKCj1oZWFkMSBBUkdVTUVOVFMKCj1vdmVyIDgKCj1pdGVtIEI8cmVwb3NpdG9yeV9pZD4gCgpU
+aGUgSUQgb2YgdGhlIGVwcmludCByZXBvc2l0b3J5IHRvIHVzZS4KCj1iYWNrCgo9aGVhZDEgT1BU
+SU9OUwoKPW92ZXIgOAoKPWl0ZW0gQjwtLWhlbHA+CgpQcmludCBhIGJyaWVmIGhlbHAgbWVzc2Fn
+ZSBhbmQgZXhpdC4KCj1pdGVtIEI8LS1tYW4+CgpQcmludCB0aGUgZnVsbCBtYW51YWwgcGFnZSBh
+bmQgdGhlbiBleGl0LgoKPWl0ZW0gQjwtLXF1aWV0PgoKQmUgdmVyeSBxdWlldC4gVGhpcyBvcHRp
+b24gd2lsbCBzdXByZXNzIGFsbCBvdXRwdXQgdW5sZXNzIGFuIGVycm9yIG9jY3Vycy4KCj1pdGVt
+IEI8LS12ZXJib3NlPgoKRXhwbGFpbiBpbiBkZXRhaWwgd2hhdCBpcyBnb2luZyBvbi4KTWF5IGJl
+IHJlcGVhdGVkIGZvciBncmVhdGVyIGVmZmVjdC4KCj1pdGVtIEI8LS12ZXJzaW9uPgoKT3V0cHV0
+IHZlcnNpb24gaW5mb3JtYXRpb24gYW5kIGV4aXQuCgo9YmFjayAgIAoKPWN1dAoKdXNlIEVQcmlu
+dHM7CnVzZSBzdHJpY3Q7CnVzZSBHZXRvcHQ6Okxvbmc7CnVzZSBQb2Q6OlVzYWdlOwoKbXkgJHZl
+cnNpb24gPSAwOwpteSAkdmVyYm9zZSA9IDA7Cm15ICRxdWlldCA9IDA7Cm15ICRoZWxwID0gMDsK
+bXkgJG1hbiA9IDA7CgpHZXRvcHQ6Okxvbmc6OkNvbmZpZ3VyZSgicGVybXV0ZSIpOwoKR2V0T3B0
+aW9ucygKICAgICAgICAnaGVscHw/JyA9PiBcJGhlbHAsCiAgICAgICAgJ21hbicgPT4gXCRtYW4s
+CiAgICAgICAgJ3ZlcnNpb24nID0+IFwkdmVyc2lvbiwKICAgICAgICAndmVyYm9zZSsnID0+IFwk
+dmVyYm9zZSwKICAgICAgICAnc2lsZW50JyA9PiBcJHF1aWV0LAogICAgICAgICdxdWlldCcgPT4g
+XCRxdWlldAopIHx8IHBvZDJ1c2FnZSggMiApOwpFUHJpbnRzOjpVdGlsczo6Y21kX3ZlcnNpb24o
+ICJzZW5kX2FsZXJ0cyIgKSBpZiAkdmVyc2lvbjsKcG9kMnVzYWdlKCAxICkgaWYgJGhlbHA7CnBv
+ZDJ1c2FnZSggLWV4aXRzdGF0dXMgPT4gMCwgLXZlcmJvc2UgPT4gMiApIGlmICRtYW47CnBvZDJ1
+c2FnZSggMiApIGlmKCBAQVJHViA8IDEgKTsKCm15ICRub2lzZSA9IDE7CiRub2lzZSA9IDAgaWYo
+ICRxdWlldCApOwokbm9pc2UgPSAxKyR2ZXJib3NlIGlmKCAkdmVyYm9zZSApOwoKbXkgJHJlcG9p
+ZCA9IHNoaWZ0KEBBUkdWKTsKbXkgJHNlc3Npb24gPSBuZXcgRVByaW50czo6U2Vzc2lvbiggMSAs
+ICRyZXBvaWQgLCAkbm9pc2UgKTsKaWYoICFkZWZpbmVkICRzZXNzaW9uICkKewogICAgICAgIHBy
+aW50IFNUREVSUiAiRmFpbGVkIHRvIGxvYWQgcmVwb3NpdG9yeTogJHJlcG9pZFxuIjsKICAgICAg
+ICBleGl0IDE7Cn0KCiMjIFRvIERvICMjCiMgMS4gR2V0IGEgbGlzdCBvZiBhbGwgQXJjaGl2ZW1h
+dGljYSByZWNvcmRzIHdoaWNoIG5lZWQgYSBuZXcgdHJhbnNmZXIgY3JlYXRpbmcKIyAyLiBJZiB0
+aGUgRVByaW50IGlzIGxvY2tlZCwgb3IgaGFzIHBlbmRpbmcgaW5kZXhlciB0YXNrcywgc2tpcCBv
+dmVyIGl0IGZvciBub3cuCiMgICAgV2Ugb25seSB3YW50IEVQcmludHMgd2hpY2ggYXJlIG5vdCBi
+ZWluZyBtb2RpZmllZCBpbiBhbnkgd2F5LiBJZiB0aGUgRVByaW50IAojICAgIGlzIGF2YWlsYWJs
+ZSwgdGFrZSBhbiBFZGl0IExvY2suCiMgMy4gRXhwb3J0IHRoZSBFUHJpbnQgdXNpbmcgdGhlIEFy
+Y2hpdmVtYXRpY2EgcGx1Z2luCiMgNC4gV3JpdGUgdGhlIHJlc3VsdCB0byBmaWxlIHdoZXJlIEFy
+Y2hpdmVtYXRpY2EgY2FuIHBpY2sgaXQgdXAKIyA1LiBSZWNvcmQgYSBsb2cgb2YgdGhlIHJlc3Vs
+dCBpbiB0aGUgQXJjaXZoZW1hdGljYSByZWNvcmQKCiRzZXNzaW9uLT50ZXJtaW5hdGUoKTsKZXhp
+dDsK
+</data>
+        </file>
+        <file>
+          <filename>epm/EPrintsArchivematica/cfg/cfg.d/z_archivematica.pl</filename>
+          <mime_type>text/plain</mime_type>
+          <hash>9b285f05970fb0b87ae07e35eff23622</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>1026</filesize>
+          <data encoding='base64'>IwojIEFyY2hpdmVtYXRpY2EgQmF6YWFyIFBhY2thZ2UKIwojIFZlcnNpb24gMC4xCiMKCnVzZSBF
+UHJpbnRzOjpEYXRhT2JqOjpBcmNoaXZlbWF0aWNhOwoKIyBFbmFibGUgcGx1Z2lucwokYy0+e3Bs
+dWdpbnN9eyJFeHBvcnQ6OkFyY2hpdmVtYXRpY2EifXtwYXJhbXN9e2Rpc2FibGV9ID0gMDsKJGMt
+PntwbHVnaW5zfXsiRXhwb3J0OjpBcmNoaXZlbWF0aWNhOjpFUHJpbnQifXtwYXJhbXN9e2Rpc2Fi
+bGV9ID0gMDsKCiMgQWRkIG5ldyBkYXRhc2V0IGZvciB0cmFja2luZyBhcmNoaXZlbWF0aWNhIGV2
+ZW50cwokYy0+e2RhdGFzZXRzfS0+e2FyY2hpdmVtYXRpY2F9ID0gewoJY2xhc3MgPT4gIkVQcmlu
+dHM6OkRhdGFPYmo6OkFyY2hpdmVtYXRpY2EiLAoJc3FsbmFtZSA9PiAiYXJjaGl2ZW1hdGljYSIs
+Cn07CgojIFNldCB1c2VyIHJvbGVzIChlZGl0IG5vdCBhbGxvd2VkIGFzIHNob3VsZCBvbmx5IGJl
+IHVwZGF0ZWQgYnkgRVByaW50cyBhbmQgZXhwb3J0IHJlc3VsdHMKcHVzaCBAeyRjLT57dXNlcl9y
+b2xlc30tPnthZG1pbn19LCBxd3sgK2FyY2hpdmVtYXRpY2EvdmlldyArYXJjaGl2ZW1hdGljYS9k
+ZXN0cm95IH07CgokYy0+YWRkX2RhdGFzZXRfdHJpZ2dlciggJ2VwcmludCcsIEVQcmludHM6OkNv
+bnN0OjpFUF9UUklHR0VSX0FGVEVSX0NPTU1JVCwgc3ViCnsKCW15KCAlYXJncyApID0gQF87Cglt
+eSggJHJlcG8sICRlcHJpbnQsICRjaGFuZ2VkICkgPSBAYXJnc3txdyggcmVwb3NpdG9yeSBkYXRh
+b2JqIGNoYW5nZWQgKX07CgogCSMjIFRvIERvICMjCiAJIyBFc3RhYmxpc2ggd2hhdCBoYXMgY2hh
+bmdlZC4uLiBhbmQgZGVjaWRlIGlmIHdlIG5lZWQgdG8gcHJvY2VzcyBhIG5ldyBBcmNoaXZlbWF0
+aWNhCiAJIyB0cmFuc2Zlci4uLiBjcmVhdGUgYSBuZXcgQXJjaGl2ZW1hdGljYSByZWNvcmQgaWYg
+dGhpcyBFUHJpbnQgZG9lc24ndCBhbHJlYWR5IGhhdmUgCiAJIyBvbmUsIG9yIHVwZGF0ZSBhbiBl
+eGlzdGluZyBvbmUgaWYgaXQgZG9lcy4KIAkKIAlyZXR1cm4gRVBfVFJJR0dFUl9PSzsKfSk7CgoK
+</data>
+        </file>
+        <file>
+          <filename>lang/en/phrases/z_archivematica.xml</filename>
+          <mime_type>inode/symlink</mime_type>
+          <hash>da2bccb281174daa4d115479e789d69e</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>1031</filesize>
+          <data encoding='base64'>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjwh
+RE9DVFlQRSBwaHJhc2VzIFNZU1RFTSAiZW50aXRpZXMuZHRkIj4KPGVwcDpwaHJhc2VzIHhtbG5z
+PSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hodG1sIiB4bWxuczplcHA9Imh0dHA6Ly9lcHJpbnRz
+Lm9yZy9lcDMvcGhyYXNlIiB4bWxuczplcGM9Imh0dHA6Ly9lcHJpbnRzLm9yZy9lcDMvY29udHJv
+bCI+Cgo8ZXBwOnBocmFzZSBpZD0iZGF0YXNldG5hbWVfYXJjaGl2ZW1hdGljYSI+QXJjaGl2ZW1h
+dGljYTwvZXBwOnBocmFzZT4KPGVwcDpwaHJhc2UgaWQ9ImRhdGFzZXRoZWxwX2FyY2hpdmVtYXRp
+Y2EiPlZpZXcgQXJjaGl2ZW1hdGljYSBUcmFuc2ZlciByZWNvcmRzPC9lcHA6cGhyYXNlPgoKPGVw
+cDpwaHJhc2UgaWQ9ImFyY2hpdmVtYXRpY2FfZmllbGRuYW1lX2FtaWQiPkFyY2hpdmVtYXRpY2Eg
+SUQ8L2VwcDpwaHJhc2U+CjxlcHA6cGhyYXNlIGlkPSJhcmNoaXZlbWF0aWNhX2ZpZWxkbmFtZV9k
+YXRhc2V0aWQiPkRhdGFzZXQ8L2VwcDpwaHJhc2U+CjxlcHA6cGhyYXNlIGlkPSJhcmNoaXZlbWF0
+aWNhX2ZpZWxkbmFtZV9kYXRhb2JqaWQiPk9iamVjdCBJRDwvZXBwOnBocmFzZT4KPGVwcDpwaHJh
+c2UgaWQ9ImFyY2hpdmVtYXRpY2FfZmllbGRuYW1lX3Jlc3VsdF9sb2ciPkxvZzwvZXBwOnBocmFz
+ZT4KPGVwcDpwaHJhc2UgaWQ9ImFyY2hpdmVtYXRpY2FfZmllbGRuYW1lX3Jlc3VsdF9sb2dfcmVz
+dWx0Ij5SZXN1bHQ8L2VwcDpwaHJhc2U+CjxlcHA6cGhyYXNlIGlkPSJhcmNoaXZlbWF0aWNhX2Zp
+ZWxkbmFtZV9yZXN1bHRfbG9nX3RpbWVzdGFtcCI+VGltZXN0YW1wPC9lcHA6cGhyYXNlPgo8ZXBw
+OnBocmFzZSBpZD0iYXJjaGl2ZW1hdGljYV9maWVsZG5hbWVfcmVzdWx0X2xvZ19hY3Rpb24iPkFj
+dGlvbjwvZXBwOnBocmFzZT4KCjxlcHA6cGhyYXNlIGlkPSJhcmNoaXZlbWF0aWNhX2ZpZWxkbmFt
+ZV9pc19kaXJ0eSI+TmV3IFRyYW5zZmVyIFBlbmRpbmc8L2VwcDpwaHJhc2U+Cgo8L2VwcDpwaHJh
+c2VzPgo=
+</data>
+        </file>
+        <file>
+          <filename>plugins/EPrints/DataObj/Archivematica.pm</filename>
+          <mime_type>inode/symlink</mime_type>
+          <hash>26843f635c265cbbaff943e5b56d501f</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>1093</filesize>
+          <data encoding='base64'>cGFja2FnZSBFUHJpbnRzOjpEYXRhT2JqOjpBcmNoaXZlbWF0aWNhOwoKdXNlIEVQcmludHM7CnVz
+ZSBFUHJpbnRzOjpEYXRhT2JqOwoKQElTQSA9ICggJ0VQcmludHM6OkRhdGFPYmonICk7Cgp1c2Ug
+c3RyaWN0OwoKc3ViIGdldF9kYXRhc2V0X2lkIHsgImFyY2hpdmVtYXRpY2EiIH0KCnN1YiBnZXRf
+c3lzdGVtX2ZpZWxkX2luZm8KewoJbXkoICRjbGFzcyApID0gQF87CgkKCXJldHVybgoJKAoJCXsg
+bmFtZSA9PiAiYW1pZCIsIHR5cGUgPT4gImNvdW50ZXIiLCBzcWxfY291bnRlciA9PiAiYXJjaGl2
+ZW1hdGljYSIsIHNxbF9pbmRleCA9PiAxIH0sCgkJeyBuYW1lID0+ICJkYXRhc2V0aWQiLCB0eXBl
+ID0+ICJpZCIsIHJlcXVpcmVkID0+IDEsIHNxbF9pbmRleCA9PiAxIH0sCgkJeyBuYW1lID0+ICJk
+YXRhb2JqaWQiLCB0eXBlID0+ICJpZCIsIHJlcXVpcmVkID0+IDEsIHNxbF9pbmRleCA9PiAxIH0s
+CgkJeyAKCQkJbmFtZSA9PiAicmVzdWx0X2xvZyIsCgkJICAJdHlwZSA9PiAiY29tcG91bmQiLAoJ
+CQltdWx0aXBsZSA9PiAxLAoJCQlmaWVsZHMgPT4gWwoJCQkJeyBzdWJfbmFtZSA9PiAidGltZXN0
+YW1wIiwgdHlwZSA9PiAidGltZXN0YW1wIiwgfSwKCQkJCXsgc3ViX25hbWUgPT4gImFjdGlvbiIs
+IHR5cGUgPT4gInNldCIgLCBvcHRpb25zID0+IFtxdyggY3JlYXRlX3RyYW5zZmVyICldIH0sICMg
+bW9yZSBhY3Rpb25zIG1heSBiZSBhZGRlZCBsYXRlcgoJCQkJeyBzdWJfbmFtZSA9PiAicmVzdWx0
+IiwgdHlwZSA9PiAic2V0Iiwgb3B0aW9ucyA9PiBbcXcoIHN1Y2Nlc3MgZmFpbCApXSB9LAogICAg
+ICAgIAkJXSwKCQl9LAoJCXsgbmFtZSA9PiAiaXNfZGlydHkiLCB0eXBlID0+ICJib29sZWFuIiwg
+fSAjIHVzZWQgdG8gcmVjb3JkIHdoZXRoZXIgb3Igbm90IGEgbmV3IEFyY2hpdmVtYXRpY2EgdHJh
+bnNmZXIgbmVlZHMgdG8gYmUgY3JlYXRlZCBmb3IgdGhpcyByZWNvcmQKICApOwp9CgoKc3ViIGFk
+ZF90b19yZWNvcmRfbG9nCnsKCW15KCAkY2xhc3MsICRhY3Rpb24sICRyZXN1bHRfY29kZSApID0g
+QF87CgoJIyBUbyBkbzogQWRkIHRpbWUsIGFjdGlvbiBhbmQgcmVzdWx0IHRvIHRoZSByZWNvcmQg
+bG9nCn0KCjE7Cg==
+</data>
+        </file>
+        <file>
+          <filename>plugins/EPrints/Plugin/Export/Archivematica.pm</filename>
+          <mime_type>inode/symlink</mime_type>
+          <hash>84d96b574248ef0d11a5787b3d6d48ea</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>399</filesize>
+          <data encoding='base64'>PWhlYWQxIE5BTUUKCkVQcmludHM6OlBsdWdpbjo6RXhwb3J0OjpBcmNoaXZlbWF0aWNhCgo9Y3V0
+CgpwYWNrYWdlIEVQcmludHM6OlBsdWdpbjo6RXhwb3J0OjpBcmNoaXZlbWF0aWNhOwoKIyBWaXJ0
+dWFsIHN1cGVyLWNsYXNzIHVzZWQgdG8gY3JlYXRlIHRyYW5zZmVycyBvZiBEYXRhIE9iamVjdHMg
+Zm9yIEFyY2hpdmVtYXRpY2EKCnVzZSBFUHJpbnRzOjpQbHVnaW46OkV4cG9ydDsKCkBJU0EgPSAo
+ICJFUHJpbnRzOjpQbHVnaW46OkV4cG9ydCIgKTsKCnVzZSBzdHJpY3Q7CgpzdWIgbmV3CnsKCW15
+KCAkY2xhc3MsICVwYXJhbXMgKSA9IEBfOwoKCSRwYXJhbXN7bWltZXR5cGV9ID0gJ2FwcGxpY2F0
+aW9uL2d6aXAnOwoKCXJldHVybiAkY2xhc3MtPlNVUEVSOjpuZXcoICVwYXJhbXMgKTsKfQoKMTsK
+</data>
+        </file>
+        <file>
+          <filename>plugins/EPrints/Plugin/Export/Archivematica/EPrint.pm</filename>
+          <mime_type>inode/symlink</mime_type>
+          <hash>c9d73b3e73528cb46b47f9096c6080ca</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>799</filesize>
+          <data encoding='base64'>PWhlYWQxIE5BTUUKCkVQcmludHM6OlBsdWdpbjo6RXhwb3J0OjpBcmNoaXZlbWF0aWNhOjpFUHJp
+bnQKCj1jdXQKCnBhY2thZ2UgRVByaW50czo6UGx1Z2luOjpFeHBvcnQ6OkFyY2hpdmVtYXRpY2E6
+OkVQcmludDsKCnVzZSBFUHJpbnRzOjpQbHVnaW46OkV4cG9ydDo6QXJjaGl2ZW1hdGljYTsKCkBJ
+U0EgPSAoICJFUHJpbnRzOjpQbHVnaW46OkV4cG9ydDo6QXJjaGl2ZW1hdGljYSIgKTsKCnVzZSBz
+dHJpY3Q7CgpzdWIgbmV3CnsKCW15KCAkY2xhc3MsICVvcHRzICkgPSBAXzsKCglteSggJHNlbGYg
+KSA9ICRjbGFzcy0+U1VQRVI6Om5ldyggJW9wdHMgKTsKCgkkc2VsZi0+e25hbWV9ID0gIkFyY2hp
+dmVtYXRpY2EiOwoJJHNlbGYtPnthY2NlcHR9ID0gWyAnZGF0YW9iai9lcHJpbnQnIF07IAoJJHNl
+bGYtPnt2aXNpYmxlfSA9ICJhbGwiOwoKCXJldHVybiAkc2VsZjsKfQoKc3ViIG91dHB1dF9kYXRh
+b2JqCnsKCW15KCAkc2VsZiwgJGRhdGFvYmosICVvcHRzICkgPSBAXzsKCgkjIyBUbyBEbyAjIwoJ
+IyBDcmVhdGUgZGlyZWN0b3JpZXMgaW4gdGVtcG9yYXJ5IGxvY2F0aW9uIGFuZCAKCSMgcG9wdWxh
+dGUgd2l0aCBkb2N1bWVudHMsIFhNTCwgY2hlY2tzdW1zLCBldGMuCgkjIHRvIGdlbmVyYXRlIGFu
+IEFyY2hpdmVtYXRpY2EgdHJhbnNmZXIuCgkjCgkjIFNob3VsZCByZWNvcmQgYSByZXN1bHQgY29k
+ZSwgdG8gYmUgc3RvcmVkIGluIAoJIyB0aGUgQXJjaGl2ZW1hdGljYSByZWNvcmQgbG9nIGZvciB0
+aGlzIERhdGFPYmoKCSMKCSMgUmV0dXJucyBhIHRhci5neiB3aGVuIHN1Y2Nlc3NmdWwKCn0KCjE7
+Cg==
+</data>
+        </file>
+        <file>
+          <filename>workflows/archivematica/default.xml</filename>
+          <mime_type>inode/symlink</mime_type>
+          <hash>50d84ba76ba42f26403e4034c04aa121</hash>
+          <hash_type>MD5</hash_type>
+          <filesize>429</filesize>
+          <data encoding='base64'>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHdvcmtmbG93IHhtbG5zPSJo
+dHRwOi8vZXByaW50cy5vcmcvZXAzL3dvcmtmbG93IiB4bWxuczplcGM9Imh0dHA6Ly9lcHJpbnRz
+Lm9yZy9lcDMvY29udHJvbCI+CiAgPGZsb3c+CiAgICA8c3RhZ2UgcmVmPSJtYWluIi8+CiAgPC9m
+bG93PgoKICA8c3RhZ2UgbmFtZT0ibWFpbiI+CiAgICA8Y29tcG9uZW50IHR5cGU9IkZpZWxkOjpN
+dWx0aSI+CiAgICAgIDx0aXRsZT5EZXRhaWxzPC90aXRsZT4KICAgICAgPGZpZWxkIHJlZj0iZGF0
+YW9iamlkIi8+CiAgICAgIDxmaWVsZCByZWY9ImRhdGFzZXRpZCIvPgogICAgICA8ZmllbGQgcmVm
+PSJyZXN1bHRfbG9nIi8+CiAgICAgIDxmaWVsZCByZWY9ImlzX2RpcnR5Ii8+CiAgICA8L2NvbXBv
+bmVudD4KICA8L3N0YWdlPgo8L3dvcmtmbG93PgoK
+</data>
+        </file>
+      </files>
+      <mime_type>inode/symlink</mime_type>
+      <format>other</format>
+      <main>workflows/archivematica/default.xml</main>
+      <content>install</content>
+    </document>
+  </documents>
+  <version>0.1</version>
+  <creators>
+    <item>
+      <name>
+        <family>Fyson</family>
+        <given>Will</given>
+      </name>
+      <id>rwf1v07@soton.ac.uk</id>
+    </item>
+    <item>
+      <name>
+        <family>Bradley</family>
+        <given>Justin</given>
+      </name>
+      <id>justin@soton.ac.uk</id>
+    </item>
+    <item>
+      <name>
+        <family>Neugebauer</family>
+        <given>Tomasz</given>
+      </name>
+      <id>Tomasz.Neugebauer@concordia.ca</id>
+    </item>
+  </creators>
+  <datestamp>2019-07-19 13:38:18</datestamp>
+  <title>Archivematica Transfer</title>
+  <description>A plugin for creating, managing and tracking the creation of Transfers for Archivematica</description>
+  <home_page>https://github.com/eprintsug/EPrintsArchivematica</home_page>
+</epm>
