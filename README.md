@@ -104,3 +104,12 @@ In addition, an option should specify when the batch processing should take plac
 $c->{DPExport}=>{perform_preservation_batch} = #use cron time string format to specify time
 
 Batch process all eprints flagged for preservation at the same time each night/week/month/year
+
+## Archivematica Sending Information Back to EPrints
+
+It would be very useful from a management and quality assurance perspective to be able to confirm, in EPrints, that an EPrint was succesfully exported, Archivematica picked up the transfer, and Archivematica successfully created and stored an AIP (Archival Information Package) for the transfer all from the same management screen.   
+
+The Archivematica Storage Service application has in-built functionality to make REST calls to external services following certain actions (e.g. successfully storing an AIP). The Archidora Archivematica-Islandora integration, for example, makes use of this functionality to trigger actions in Islandora following the AIP storage event.  Since a RESTful endpoint is  supported in EPrints, this is the preferred way to send back the following information from Archivematica for each of the processed eprints:
+
+* The UUID of the eprint in Archivematica
+* A corresponding status message that would include, minimally, success/fail, and possibly, additional information.
