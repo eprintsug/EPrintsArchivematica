@@ -112,4 +112,5 @@ It would be very useful from a management and quality assurance perspective to b
 The Archivematica Storage Service application has in-built functionality to make REST calls to external services following certain actions (e.g. successfully storing an AIP). The Archidora Archivematica-Islandora integration, for example, makes use of this functionality to trigger actions in Islandora following the AIP storage event.  Since a RESTful endpoint is  supported in EPrints, this is the preferred way to send back the following information from Archivematica for each of the processed eprints:
 
 * The UUID of the eprint in Archivematica
-* A corresponding status message that would include, minimally, success/fail, and possibly, additional information.
+
+The Archivematica Storage Service will send back the full AIP folder name with the EPrintsArchivemticaDatasetID and the AM UUID using a CRUD callback (http://wiki.eprints.org/w/API:EPrints/Apache/CRUD). 
