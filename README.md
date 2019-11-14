@@ -118,4 +118,4 @@ The Archivematica Storage Service will send back the full AIP folder name, which
 `curl -v -H "Content-Type: application/vnd.eprints.data+xml;" -X PUT --data-binary "@/path/to/data.xml" -u <username>:<password> http://myrepository.org/id/archivematica/<id>`
 
 where `<id>  = EPrintsArchivematicaDatasetID = AIP folder name`
-and `/path/to/data.xml  contains the Archivematica UUID of this AIP`
+and `/path/to/data.xml` contains the Archivematica UUID of this AIP.
