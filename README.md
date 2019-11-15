@@ -34,7 +34,7 @@ Transfers are moved to a specified shared storage location.
 
 `fileid-XXXXX -> folder# -> filename`
 
-* Archivematica's [Automation Tools](https://github.com/artefactual/automation-tools) monitors shared storage for new bag, creates transfers/ingests in Archivematica according to a user-defined processing configuration, and then stores AIPs in archival storage.
+* Archivematica's [Automation Tools](https://github.com/artefactual/automation-tools) monitors shared storage for new export directory, creates transfers/ingests in Archivematica according to a user-defined processing configuration, and then stores AIPs in archival storage.
 
 This integration is currently in the technical specification phase.
 
@@ -117,5 +117,5 @@ The Archivematica Storage Service will send back the AIP transfer folder name, w
 
 `curl -v -H "Content-Type: application/json;" -X PUT --data-binary "@/path/to/data.json" -u <username>:<password> http://myrepository.org/id/archivematica/<id>`
 
-where `<id>  = EPrintsArchivematicaDatasetID = AIP transfer name`
-and `/path/to/data.json` contains the Archivematica UUID of this AIP.
+where `<id>  = EPrintsArchivematicaDatasetID = transfer name`
+and `/path/to/data.json` contains the Archivematica UUID of the resulting AIP.
