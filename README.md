@@ -113,9 +113,9 @@ The Archivematica Storage Service application has in-built functionality to make
 
 * The UUID of the eprint in Archivematica
 
-The Archivematica Storage Service will send back the full AIP folder name, which is the EPrintsArchivemticaDatasetID and the AM UUID using a CRUD callback (http://wiki.eprints.org/w/API:EPrints/Apache/CRUD). 
+The Archivematica Storage Service will send back the AIP transfer folder name, which is the EPrintsArchivemticaDatasetID and the AM UUID using a CRUD callback (http://wiki.eprints.org/w/API:EPrints/Apache/CRUD). 
 
 `curl -v -H "Content-Type: application/vnd.eprints.data+xml;" -X PUT --data-binary "@/path/to/data.xml" -u <username>:<password> http://myrepository.org/id/archivematica/<id>`
 
-where `<id>  = EPrintsArchivematicaDatasetID = AIP folder name`
-and `/path/to/data.xml` contains the Archivematica UUID of this AIP.
+where `<id>  = EPrintsArchivematicaDatasetID = AIP transfer name`
+and `/path/to/data.json` contains the Archivematica UUID of this AIP.
