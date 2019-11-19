@@ -119,3 +119,11 @@ The Archivematica Storage Service will send back the AIP transfer folder name, w
 
 where `<id>  = EPrintsArchivematicaDatasetID = transfer name`
 and `/path/to/data.json` contains the Archivematica UUID of the resulting AIP.
+
+The body of tha data.json response follows this format:
+
+```
+{
+  'AIP UUID': '<UUID>'
+}
+```
