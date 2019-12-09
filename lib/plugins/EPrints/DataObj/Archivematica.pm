@@ -18,6 +18,7 @@ sub get_system_field_info
 		{ name => "amid", type => "counter", sql_counter => "archivematica", sql_index => 1 },
 		{ name => "datasetid", type => "id", required => 1, sql_index => 1 },
 		{ name => "dataobjid", type => "id", required => 1, sql_index => 1 },
+		{ name => "uuid", type => "int", sql_index => 1 },
 		{ 
 			name => "result_log",
 		  	type => "compound",
@@ -29,9 +30,17 @@ sub get_system_field_info
         		],
 		},
 		{ name => "is_dirty", type => "boolean", } # used to record whether or not a new Archivematica transfer needs to be created for this record
-  );
+	);
 }
 
+sub get_dataobj
+{
+	my( $self ) = @_;
+
+	my $session = $self->{session};
+	my $ds = $session->dataset( $self->value( "datasetid" ) );
+	return $ds->dataobj( $self->value( "dataobjid" ) );
+}
 
 sub add_to_record_log
 {

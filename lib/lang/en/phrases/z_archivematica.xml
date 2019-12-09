@@ -8,11 +8,17 @@
 <epp:phrase id="archivematica_fieldname_amid">Archivematica ID</epp:phrase>
 <epp:phrase id="archivematica_fieldname_datasetid">Dataset</epp:phrase>
 <epp:phrase id="archivematica_fieldname_dataobjid">Object ID</epp:phrase>
+<epp:phrase id="archivematica_fieldname_uuid">Archivematica UUID</epp:phrase>
 <epp:phrase id="archivematica_fieldname_result_log">Log</epp:phrase>
 <epp:phrase id="archivematica_fieldname_result_log_result">Result</epp:phrase>
 <epp:phrase id="archivematica_fieldname_result_log_timestamp">Timestamp</epp:phrase>
 <epp:phrase id="archivematica_fieldname_result_log_action">Action</epp:phrase>
-
 <epp:phrase id="archivematica_fieldname_is_dirty">New Transfer Pending</epp:phrase>
+
+<epp:phrase id="Plugin/Screen/EPrint/Staff/Archivematica:action:create_archivematica_record:title">Archivematica Transfer</epp:phrase> 
+<epp:phrase id="Plugin/Screen/EPrint/Staff/Archivematica:action:create_archivematica_record:description">Archive this item via Archivematica</epp:phrase>
+<epp:phrase id="Plugin/Screen/EPrint/Staff/Archivematica:create_transfer">A request to archive this item via Archivematica has been made.</epp:phrase>
+
+<epp:phrase id="Plugin/Screen/Archivematica/Export:action:export:title">Export</epp:phrase>
 
 </epp:phrases>

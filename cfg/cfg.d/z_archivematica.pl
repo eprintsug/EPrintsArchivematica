@@ -7,6 +7,9 @@
 use EPrints::DataObj::Archivematica;
 
 # Enable plugins
+$c->{plugins}{"Screen::EPrint::Staff::Archivematica"}{params}{disable} = 0;
+$c->{plugins}{"Screen::Archivematica::Export"}{params}{disable} = 0;
+
 $c->{plugins}{"Export::Archivematica"}{params}{disable} = 0;
 $c->{plugins}{"Export::Archivematica::EPrint"}{params}{disable} = 0;
 
@@ -17,7 +20,13 @@ $c->{datasets}->{archivematica} = {
 };
 
 # Set user roles (edit not allowed as should only be updated by EPrints and export results
-push @{$c->{user_roles}->{admin}}, qw{ +archivematica/view +archivematica/destroy };
+push @{$c->{user_roles}->{admin}}, qw{ +archivematica/view +archivematica/destroy archive/eprint archivematica/export };
+
+# Set archivematica transfer location
+$c->{archivematica}->{path} = $c->{archiveroot}.'/archivematica';
+
+# Include Derivatives?
+$c->{DPExport}->{include_derivatives} = 0;
 
 $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 {
