@@ -23,4 +23,10 @@ sub new
 	return $class->SUPER::new( %params );
 }
 
+sub output_dataobj
+{
+	my ($self, $dataobj, %opts) = @_;
+
+}
+
 1;
