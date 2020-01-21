@@ -30,7 +30,6 @@ sub new
 sub output_dataobj
 {
 	my( $self, $dataobj, %opts ) = @_;
-
 	my $session = $self->{session};
 
 	my $amid = $opts{amid};
@@ -46,7 +45,9 @@ sub output_dataobj
 	## documents
 	my $documents_path = "$objects_path/documents";
 	$self->_make_dir( $documents_path );
-	
+
+	my %hash_cache;	# store checksums to save recalculating them
+
 	# get the main, non-volatile documents
 	my @docs = $dataobj->get_all_documents;
 	foreach my $doc ( @docs )
@@ -68,6 +69,11 @@ sub output_dataobj
 			# and copy the file into the new file dir
 			my $filename = $file->get_value( "filename" );
 			my $local_path = $doc->local_path . "/" . $filename;
+
+			my $h = $file->get_value( 'hash' );
+			my $ht = $file->get_value( 'hash_type' );
+
+			$hash_cache{ "$file_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
 			copy($local_path, "$file_path/$filename") or die "Copy failed: $!";
 		}
 	}
@@ -94,6 +100,11 @@ sub output_dataobj
                 	{
 	                        my $filename = $file->get_value( "filename" );
         	                my $file_path = $doc->local_path . "/" . $filename;
+
+				my $h = $file->get_value( "hash" );
+				my $ht = $file->get_value( "hash_type" );
+
+				$hash_cache{ "$pos_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
                 	        copy($file_path, "$pos_path/$filename") or die "Copy failed: $!";
 	                }
 		}
@@ -169,11 +180,16 @@ sub output_dataobj
 	# loop through the files in the objects dir and add them to manifest
 	foreach my $file_path ( @file_paths )
 	{
-		open(my $fh, '<', $file_path) or die "Could not open file '$file_path' $!";
-		my $ctx = Digest::MD5->new;
-		$ctx->addfile( $fh );
-		my $digest = $ctx->hexdigest;
-		close $fh;
+		my $digest = $hash_cache{ $file_path };
+		if( !$digest )
+		{
+			open(my $fh, '<', $file_path) or die "Could not open file '$file_path' $!";
+			my $ctx = Digest::MD5->new;
+			$ctx->addfile( $fh );
+			$digest = $ctx->hexdigest;
+			close $fh;
+		}
+
 		print $manifest_fh $digest . " " . $file_path . "\n";
 	}
 	close $manifest_fh;
