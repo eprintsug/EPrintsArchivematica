@@ -145,7 +145,7 @@ sub output_dataobj
 	my $epdata = {};
 	foreach my $metadata ( @{$dc_metadata} )
         {
-		my $key = $metadata->[0];
+		my $key = "dc." . $metadata->[0];
 		my $value = $metadata->[1];
 		if( exists $epdata->{$key} ) # more than one entry for this key, turn value into an array
 		{
