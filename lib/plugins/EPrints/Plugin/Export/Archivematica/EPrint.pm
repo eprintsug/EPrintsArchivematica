@@ -117,7 +117,6 @@ sub output_dataobj
 	my $xml = $session->xml;
         my $doc = $xml->parse_string( $dataobj->export( "XML" ) );
 	EPrints::XML::write_xml_file( $doc, "$metadata_path/EP3.xml" );
-
 	
 	## revisions 
 	# create a directory to copy the revisions to
@@ -180,17 +179,17 @@ sub output_dataobj
 	# loop through the files in the objects dir and add them to manifest
 	foreach my $file_path ( @file_paths )
 	{
-		my $digest = $hash_cache{ $file_path };
-		if( !$digest )
-		{
-			open(my $fh, '<', $file_path) or die "Could not open file '$file_path' $!";
-			my $ctx = Digest::MD5->new;
-			$ctx->addfile( $fh );
-			$digest = $ctx->hexdigest;
-			close $fh;
-		}
+		open(my $fh, '<', $file_path) or die "Could not open file '$file_path' $!";
+		my $ctx = Digest::MD5->new;
+		$ctx->addfile( $fh );
+		my $digest = $ctx->hexdigest;
+		close $fh;
 
-		print $manifest_fh $digest . " " . $file_path . "\n";
+		# Check if the recorded checksum matches the one just calculated.
+		# TODO : For now add an alert in the manifest, later we need to act according to local config
+		my $info = ( defined $hash_cache{ $file_path } && $hash_cache{ $file_path } ne $digest ) ? " # !checksum mismatch!" : "";
+
+		print $manifest_fh $digest . " " . $file_path . $info . "\n";
 	}
 	close $manifest_fh;
 }	
