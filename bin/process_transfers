@@ -1,7 +1,4 @@
-#!/usr/bin/perl -w
-
-use FindBin;
-use lib "$FindBin::Bin/../../../perl_lib";
+#!/usr/bin/perl -w -I /opt/eprints3/perl_lib
 
 =pod
 
@@ -82,7 +79,7 @@ GetOptions(
         'silent' => \$quiet,
         'quiet' => \$quiet
 ) || pod2usage( 2 );
-EPrints::Utils::cmd_version( "send_alerts" ) if $version;
+EPrints::Utils::cmd_version( "process_transfers" ) if $version;
 pod2usage( 1 ) if $help;
 pod2usage( -exitstatus => 0, -verbose => 2 ) if $man;
 pod2usage( 2 ) if( @ARGV < 1 );
@@ -100,13 +97,36 @@ if( !defined $session )
 }
 
 ## To Do ##
-# 1. Get a list of all Archivematica records which need a new transfer creating
+# 1. (done) Get a list of all Archivematica records which need a new transfer creating
 # 2. If the EPrint is locked, or has pending indexer tasks, skip over it for now.
 #    We only want EPrints which are not being modified in any way. If the EPrint 
 #    is available, take an Edit Lock.
-# 3. Export the EPrint using the Archivematica plugin
+# 3. (done) Export the EPrint using the Archivematica plugin
 # 4. Write the result to file where Archivematica can pick it up
 # 5. Record a log of the result in the Arcivhematica record
 
+# Find all the Archivematica records which have a is_dirty set to 1
+my $ds = $session->dataset( "archivematica" );
+my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
+my $list = $searchexp->perform_search;
+
+my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
+
+# Export all the is_dirty = 1 records, setting is_dirty = 0 as we go.
+print "Found " . $list->count() . " records to process.\n" if $verbose;
+$list->map( sub {
+	my( $session, $dataset, $am ) = @_;
+
+	print "Processing: " . $am->id . "\n" if $verbose;
+
+	my $eprint = $am->get_dataobj();
+	my %opts;
+	$opts{amid} = $am->id;
+
+	$plugin->output_dataobj( $eprint, %opts );
+	$am->set_value( "is_dirty", 0 );
+	$am->commit();
+});
+
 $session->terminate();
-exit;
