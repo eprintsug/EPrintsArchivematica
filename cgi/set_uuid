@@ -1,0 +1,77 @@
+use EPrints;
+use EPrints::Apache::AnApache;
+use strict;
+
+my $session = EPrints::Session->new();
+
+# If there is no current user, then attempt to login via auth_basic details
+if( !defined( $session->current_user ) )
+{
+  my $auth_name = "/cgi/archivematica/set_uuid";
+  $session->get_request->auth_name( $auth_name );
+  my( $res, $passwd_sent ) = $session->get_request->get_basic_auth_pw;
+  my( $user_sent ) = $session->get_request->user;
+
+  $session->{current_user} = $session->_current_user_auth_basic;
+  my $valid_username = $session->valid_login( $user_sent, $passwd_sent );
+
+  # Check the that the user is logged in, otherwise throw up a basic auth
+  if( !$valid_username || !defined( $session->current_user ) )
+  {
+    my $request = $session->get_request;
+    EPrints::Apache::AnApache::header_out( $session->get_request, "WWW-Authenticate" => "Basic realm=\"$auth_name\"" );
+    EPrints::Apache::AnApache::send_status_line( $session->get_request, AUTH_REQUIRED, "Requires authentication" );
+    EPrints::Apache::AnApache::send_http_header( $session->get_request );
+    $session->terminate;
+    exit 0;
+  }
+}
+
+$session->send_http_header( content_type => "text/json" );
+
+my $amid = $session->param( "amid" );
+$amid =~ s/[^0-9]//; # digits only
+
+my $uuid = $session->param( "uuid" );
+$uuid =~ s/[^0-9]//; # digits only
+
+if( ! $session->current_user->has_role( "archivematica/export" ) )
+{
+  print '[{ error: "You must be logged in and have the archivematica/export role to access this page." }]';
+  $session->terminate;
+  exit( 0 );
+}
+
+if( !$amid )
+{
+  print '[{ error: "No amid specified" }]';
+  $session->terminate;
+  exit( 0 );
+}
+
+if( !$uuid )
+{
+  print '[{ error: "No uuid specified" }]';
+  $session->terminate;
+  exit( 0 );
+}
+
+my $ds = $session->dataset( "archivematica" );
+my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+$searchexp->add_field( $ds->get_field( "amid" ), $amid, "EQ" );
+my $list = $searchexp->perform_search;
+
+if( $list->count() )
+{
+  # just the first one
+  my $obj = $list->item(0);
+  $obj->set_value( "uuid", $uuid );
+  $obj->commit();
+}
+
+my $plugin = $session->plugin( "Export::JSON" );
+$plugin->initialise_fh( \*STDOUT );
+$plugin->output_list( list=>$list, fh=>*STDOUT );
+
+$session->terminate();
+
