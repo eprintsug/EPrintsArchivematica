@@ -89,6 +89,7 @@ $noise = 0 if( $quiet );
 $noise = 1+$verbose if( $verbose );
 
 my $repoid = shift(@ARGV);
+my $eprintid = shift(@ARGV);
 my $session = new EPrints::Session( 1 , $repoid , $noise );
 if( !defined $session )
 {
@@ -109,6 +110,14 @@ if( !defined $session )
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
 $searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
+
+# Limit to just one eprint if an eprintid is specified
+if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
+{
+	$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprintid, "EQ" );
+	$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
+}
+
 my $list = $searchexp->perform_search;
 
 my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
