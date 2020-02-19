@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<epm xmlns='http://eprints.org/ep2/data/2.0' id='https://lib-irpredev.concordia.ca/id/epm/EPrintsArchivematica'>
+<epm xmlns='http://eprints.org/ep2/data/2.0' id='/id/epm/EPrintsArchivematica'>
   <epmid>EPrintsArchivematica</epmid>
-  <uri>https://lib-irpredev.concordia.ca/id/epm/EPrintsArchivematica</uri>
+  <uri>/id/epm/EPrintsArchivematica</uri>
   <documents>
     <document>
       <files>
