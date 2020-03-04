@@ -28,7 +28,6 @@ $c->{archivematica}->{path} = $c->{archiveroot}.'/archivematica';
 # Include Derivatives?
 $c->{DPExport}->{include_derivatives} = 1;
 
-# example fields to trigger record creation
 $c->{DPExport}->{trigger_fields}->{meta_fields} = [ qw/ title creators_name creators_id fileinfo / ]; 
 
 $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
@@ -41,6 +40,9 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
  	# transfer... create a new Archivematica record if this EPrint doesn't already have 
  	# one, or update an existing one if it does.
 
+#use Data::Dumper;
+#print STDERR Dumper( $changed ) . "\n";
+ 	
 	my $action_required = 0;
 	foreach my $f ( @{ $c->{DPExport}->{trigger_fields}->{meta_fields} } )
 	{
@@ -55,7 +57,7 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 	if( $action_required )
 	{
 		# create an archivematica record for this item if one doesnt exist
-		# the process_transfers offline script can run over these and generate exports (and zip files)
+		# an offline script can run over these and generate exports (and zip files)
 
 		my $ds = $session->dataset( "archivematica" );
 		my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
@@ -65,17 +67,20 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 
 		if( $list && $list->count() > 0 )
 		{
+			#print STDERR "trigger: use existing archivematica entry\n";
 			# take the first result and set is_dirty if its not already set
 			my $a = $list->item(0);
 			if( $a->get_value( "is_dirty" ) == 0 )
 			{
 				$a->set_value( "is_dirty", 1 );
 				$a->commit();
+				#print STDERR "trigger: set archivematica entry as dirty\n";
 			}
 		}
 		else
 		{
 			# create a new entry
+			#print STDERR "trigger: create new archivematica entry\n";
 			$session->dataset( "archivematica" )->create_dataobj({
 				datasetid => "eprint",
 				dataobjid => $eprint->id,
@@ -83,7 +88,6 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 			});
 		}
 	}
-
  	return EP_TRIGGER_OK;
 });
 

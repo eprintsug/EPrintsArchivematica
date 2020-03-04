@@ -115,8 +115,8 @@ $searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
 if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
 {
 	$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprintid, "EQ" );
-	$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
 }
+$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
 
 my $list = $searchexp->perform_search;
 
