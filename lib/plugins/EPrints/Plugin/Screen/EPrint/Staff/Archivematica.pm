@@ -1,4 +1,4 @@
-package EPrints::Plugin::Screen::EPrint::Staff::Archivematica;
+package EPrints::Plugin::Screen::Staff::Archivematica;
 
 @ISA = ( 'EPrints::Plugin::Screen::EPrint' );
 
