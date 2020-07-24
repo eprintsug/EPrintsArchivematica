@@ -1,0 +1,98 @@
+#!/usr/bin/perl -w -I /opt/eprints3/perl_lib
+
+=pod
+
+=head1 NAME
+
+B<touch_transfers> - Updates all Archivematica records which are not pending a transfer and sets them so they are.
+
+=head1 SYNOPSIS
+
+B<touch_transfers> I<repository_id>
+
+=head1 DESCRIPTION
+
+=head1 ARGUMENTS
+
+=over 8
+
+=item B<repository_id> 
+
+The ID of the eprint repository to use.
+
+=back
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--help>
+
+Print a brief help message and exit.
+
+=item B<--verbose>
+
+Explain in detail what is going on.
+May be repeated for greater effect.
+
+=item B<--version>
+
+Output version information and exit.
+
+=back   
+
+=cut
+
+use EPrints;
+use strict;
+use Getopt::Long;
+use Pod::Usage;
+
+my $version = 0;
+my $verbose = 0;
+my $help = 0;
+my $man = 0;
+
+Getopt::Long::Configure("permute");
+
+GetOptions(
+        'help|?' => \$help,
+        'version' => \$version,
+        'verbose+' => \$verbose,
+) || pod2usage( 2 );
+EPrints::Utils::cmd_version( "touch_transfers" ) if $version;
+pod2usage( 1 ) if $help;
+pod2usage( -exitstatus => 0, -verbose => 2 ) if $man;
+pod2usage( 2 ) if( @ARGV < 1 );
+
+my $noise = 1;
+$noise = 1+$verbose if( $verbose );
+
+my $repoid = shift(@ARGV);
+my $eprintid = shift(@ARGV);
+my $session = new EPrints::Session( 1 , $repoid , $noise );
+if( !defined $session )
+{
+        print STDERR "Failed to load repository: $repoid\n";
+        exit 1;
+}
+
+my $ds = $session->dataset( "archivematica" );
+my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 0, "EQ" );
+
+my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
+
+my $list = $searchexp->perform_search;
+
+print "Found " . $list->count() . " records to process.\n" if $verbose;
+$list->map( sub {
+	my( $session, $dataset, $am ) = @_;
+
+	print "Processing: " . $am->id . "\n" if $verbose;
+
+	$am->set_value( "is_dirty", 1 );
+	$am->commit();
+});
+
+$session->terminate();
