@@ -8,6 +8,27 @@ The OR2018 presentation is available here:
 Neugebauer, Tomasz , Simpson, Justin and Bradley, Justin (2018) Digital Preservation through EPrints-Archivematica Integration. In: International Conference on Open Repositories, June 3-7, 2018, Bozeman, Montana, USA
 https://spectrum.library.concordia.ca/983933/
 
+# Usage
+
+## BIN Scripts:
+
+* /archives/REPOID/bin/create_transfers
+* /archives/REPOID/bin/process_transfers
+* /archives/REPOID/bin/touch_transfers
+
+### Run these scripts with the command line
+
+**create_transfers** will create the missing archivematica dataset records for all live eprints.  (You’ll have to edit the script if you want review instead of archive.)
+
+**touch_transfers** will set is_dirty=1 on all existing archivematica records where its not already set.
+
+**process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  This script can also take the eprintID of an eprint to export as a parameter.  
+
+## Config Files:
+
+* /archives/REPOID/cfg/cfg.d/z_archivematica.pl   (set where the Archivematica transfer folder is in this file, this is where exports are written to)
+
+
 # Summary
 
 The following is a summary of the proposed workflow for EPrints-Archivematica integration:
