@@ -109,14 +109,27 @@ if( !defined $session )
 # Find all the Archivematica records which have a is_dirty set to 1
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
+
 
 # Limit to just one eprint if an eprintid is specified
 if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
 {
 	$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprintid, "EQ" );
+	my $listForEPrintID = $searchexp->perform_search;
+	
+	 $listForEPrintID->map( sub {
+		my( $session, $dataset, $am ) = @_;
+			if ($am->get_value( "is_dirty") == 0){
+				print "Archivemtaica object ID ".$am->id." for EprintID ".$am->get_value("dataobjid")." is not set to dirty so will not be processed.  Use touch_transfers to set it to dirty if required.\n" if $verbose;
+			}
+    });
 }
-$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
+else {
+	$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
+}
+
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
+
 
 my $list = $searchexp->perform_search;
 
