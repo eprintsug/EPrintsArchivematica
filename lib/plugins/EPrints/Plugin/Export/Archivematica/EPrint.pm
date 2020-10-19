@@ -10,6 +10,10 @@ use EPrints::Plugin::Export::Archivematica;
 use File::Copy;
 use Digest::MD5 qw(md5_hex);
 
+use JSON::PP;
+use Data::Dumper;
+
+
 @ISA = ( "EPrints::Plugin::Export::Archivematica" );
 
 use strict;
@@ -137,35 +141,120 @@ sub output_dataobj
 
 	## Dublin Core JSON
 	# first get the generic DC export plugin and use it to get an array of data
-        my $dc_export = $session->plugin( "Export::DC" );
+    my $dc_export = $session->plugin( "Export::DC" );
 	my $dc_metadata = $dc_export->convert_dataobj( $dataobj );
-
-	# and then convert it into JSON by creating a hash of data and passing that to do the JSON export plugin
-	my $epdata = {};
+		
+	#create arrays for the different dc_export values
+    my @creator_names;
+	my @identifier_names;
+	my @title_names;
+	my @type_names;
+	my @type_rights;
+	my @type_language;
+	my @type_format;
+	my @type_date;
+	my @type_relation;
+	
+	#create a hash to store the new values
+	my %dc_hash;
+	
+	
+	#push each value in the exported DC metadata to corresponding arrays
 	foreach my $metadata ( @{$dc_metadata} )
-        {
-		my $key = "dc." . $metadata->[0];
-		my $value = $metadata->[1];
-		if( exists $epdata->{$key} ) # more than one entry for this key, turn value into an array
-		{
-			my @new_values;
-			push @new_values, $epdata->{$key};
-			push @new_values, $value;
-			$epdata->{$key} = \@new_values;
-		}
-		else 
-		{
-	        	$epdata->{$key} = $value;        
-		}
-	}
-	my $json_export = $session->plugin( "Export::JSON" );
-	my $json = $json_export->output_dataobj( $epdata );
+    {	
+	     my $dc_key = $metadata->[0];
+		 my $dc_value = $metadata->[1];
+		 
+		 if ($dc_key eq "creator")
+		 {
+		 
+			push @creator_names, $dc_value;
 
-	# now write the resulting json to file
+		 }
+		 elsif ($dc_key eq "identifier")
+		 {
+		 
+			push @identifier_names, $dc_value;
+
+		 }
+		 elsif ($dc_key eq "title")
+		 {
+		 
+			push @title_names, $dc_value;
+
+		 }
+		 
+		elsif ($dc_key eq "type")
+		 {
+		 
+			push @type_names,  $dc_value;
+
+		 }
+		 
+		 elsif ($dc_key eq "rights")
+		 {
+		 
+			push @type_rights, $dc_value;
+
+		 }
+		 
+		 elsif ($dc_key eq "language")
+		 {
+		 
+			push @type_language, $dc_value;
+
+		 }
+		 
+		 elsif ($dc_key eq "format")
+		 {
+		 
+			push @type_format, $dc_value;
+
+		 }
+		 
+		 elsif ($dc_key eq "date")
+		 {
+		 
+			push @type_date, $dc_value;
+
+		 }
+		 
+		 elsif ($dc_key eq "relation")
+		 {
+		 
+			push @type_relation, $dc_value;
+
+		 }
+	}
+	
+	#push arrays to matching hash fields
+	$dc_hash{"dc.creator"} = \@creator_names;
+	$dc_hash{"dc.identifier"} = \@identifier_names;
+	$dc_hash{"dc.title"} = \@title_names;
+	$dc_hash{"dc.rights"} = \@type_rights;
+	$dc_hash{"dc.language"} = \@type_language;
+	$dc_hash{"dc.format"} = \@type_format;
+	$dc_hash{"dc.date"} = \@type_date;
+	$dc_hash{"dc.relation"} = \@type_relation;
+	$dc_hash{"dc.type"} = \@type_names;
+	
+	
+	#create variable for hash
+	my $hash_to_json_data = \%dc_hash;
+	
+	
+	#convert hash to json
+	my $json_export = $session->plugin( "Export::JSON" );
+	my $json = $json_export->output_dataobj( $hash_to_json_data );
+	
+	
+	#print json to metadata.json file
 	my $dc_file_path = "$metadata_path/metadata.json";
 	open(my $fh, '>', $dc_file_path) or die "Could not open file '$dc_file_path' $!";
 	print $fh $json;
 	close $fh;
+	
+	
 
 	## Checksum manifest
 	# get all the files from the objects directory
