@@ -74,6 +74,8 @@ my $noise = 1;
 $noise = 1+$verbose if( $verbose );
 
 my $repoid = shift(@ARGV);
+my $eprintid = shift(@ARGV);
+
 my $session = new EPrints::Session( 1 , $repoid , $noise );
 if( !defined $session )
 {
@@ -84,6 +86,11 @@ if( !defined $session )
 my $ds = $session->dataset( "eprint" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
 $searchexp->add_field( $ds->get_field( "eprint_status" ), "archive", "EQ" );
+if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
+{
+	$searchexp->add_field( $ds->get_field( "eprintid" ), $eprintid, "EQ" );
+	print "Limiting search to EPrintID ".$eprintid.".\n" if $verbose;
+}
 my $list = $searchexp->perform_search;
 
 my $a_ds = $session->dataset( "archivematica" );
