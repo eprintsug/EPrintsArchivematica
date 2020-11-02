@@ -165,78 +165,125 @@ sub output_dataobj
 	     my $dc_key = $metadata->[0];
 		 my $dc_value = $metadata->[1];
 		 
-		 if ($dc_key eq "creator")
-		 {
-		 
-			push @creator_names, $dc_value;
+		 if (defined ($dc_value)){
+			 if ($dc_key eq "creator")
+			 {
 
-		 }
-		 elsif ($dc_key eq "identifier")
-		 {
-		 
-			push @identifier_names, $dc_value;
+				push @creator_names, $dc_value;
 
-		 }
-		 elsif ($dc_key eq "title")
-		 {
-		 
-			push @title_names, $dc_value;
+			 }
+			 elsif ($dc_key eq "identifier")
+			 {
 
-		 }
-		 
-		elsif ($dc_key eq "type")
-		 {
-		 
-			push @type_names,  $dc_value;
+				push @identifier_names, $dc_value;
 
-		 }
-		 
-		 elsif ($dc_key eq "rights")
-		 {
-		 
-			push @type_rights, $dc_value;
+			 }
+			 elsif ($dc_key eq "title")
+			 {
 
-		 }
-		 
-		 elsif ($dc_key eq "language")
-		 {
-		 
-			push @type_language, $dc_value;
+				push @title_names, $dc_value;
 
-		 }
-		 
-		 elsif ($dc_key eq "format")
-		 {
-		 
-			push @type_format, $dc_value;
+			 }
 
-		 }
-		 
-		 elsif ($dc_key eq "date")
-		 {
-		 
-			push @type_date, $dc_value;
+			elsif ($dc_key eq "type")
+			 {
 
-		 }
-		 
-		 elsif ($dc_key eq "relation")
-		 {
-		 
-			push @type_relation, $dc_value;
+				push @type_names,  $dc_value;
 
+			 }
+
+			 elsif ($dc_key eq "rights")
+			 {
+
+				push @type_rights, $dc_value;
+
+			 }
+
+			 elsif ($dc_key eq "language")
+			 {
+
+				push @type_language, $dc_value;
+
+			 }
+
+			 elsif ($dc_key eq "format")
+			 {
+
+				push @type_format, $dc_value;
+
+			 }
+
+			 elsif ($dc_key eq "date")
+			 {
+
+				push @type_date, $dc_value;
+
+			 }
+
+			 elsif ($dc_key eq "relation")
+			 {
+
+				push @type_relation, $dc_value;
+
+			 }
 		 }
 	}
 	
 	#push arrays to matching hash fields
-	$dc_hash{"dc.creator"} = \@creator_names;
-	$dc_hash{"dc.identifier"} = \@identifier_names;
-	$dc_hash{"dc.title"} = \@title_names;
-	$dc_hash{"dc.rights"} = \@type_rights;
-	$dc_hash{"dc.language"} = \@type_language;
-	$dc_hash{"dc.format"} = \@type_format;
-	$dc_hash{"dc.date"} = \@type_date;
-	$dc_hash{"dc.relation"} = \@type_relation;
-	$dc_hash{"dc.type"} = \@type_names;
+	if ( @creator_names){
+		if ( @creator_names > 1){
+			$dc_hash{"dc.creator"} = \@creator_names;
+			}
+		else {$dc_hash{"dc.creator"} = $creator_names[0];}
+	}
+	if ( @identifier_names){
+		if ( @identifier_names > 1){
+			$dc_hash{"dc.identifier"} = \@identifier_names;
+			}
+		else {$dc_hash{"dc.identifier"} = $identifier_names[0];}
+	}
+	if ( @title_names){
+		if ( @title_names > 1){
+			$dc_hash{"dc.title"} = \@title_names;
+			}
+		else {$dc_hash{"dc.title"} = $title_names[0];}
+	}
+	if ( @type_rights){
+		if ( @type_rights > 1){
+			$dc_hash{"dc.rights"} = \@type_rights;
+			}
+		else {$dc_hash{"dc.rights"} = $type_rights[0];}
+	}
+	if ( @type_language){
+		if ( @type_language > 1){
+			$dc_hash{"dc.language"} = \@type_language;
+			}
+		else {$dc_hash{"dc.language"} = $type_language[0];}
+	}
+	if ( @type_format){
+		if ( @type_format > 1){
+			$dc_hash{"dc.format"} = \@type_format;
+			}
+		else {$dc_hash{"dc.format"} = $type_format[0];}
+	}
+	if ( @type_date){
+		if ( @type_date > 1){
+			$dc_hash{"dc.date"} = \@type_date;
+			}
+		else {$dc_hash{"dc.date"} = $type_date[0];}
+	}
+	if ( @type_relation){
+		if ( @type_relation > 1){
+			$dc_hash{"dc.relation"} = \@type_relation;
+			}
+		else {$dc_hash{"dc.relation"} = $type_relation[0];}
+	}
+	if ( @type_names){
+		if ( @type_names > 1){
+			$dc_hash{"dc.type"} = \@type_names;
+			}
+		else {$dc_hash{"dc.type"} = $type_names[0];}
+	}
 	
 	
 	#create variable for hash
@@ -245,7 +292,7 @@ sub output_dataobj
 	
 	#convert hash to json
 	my $json_export = $session->plugin( "Export::JSON" );
-	my $json = $json_export->output_dataobj( $hash_to_json_data );
+	my $json = '['.$json_export->output_dataobj( $hash_to_json_data ).']';
 	
 	
 	#print json to metadata.json file
@@ -278,7 +325,7 @@ sub output_dataobj
 		# TODO : For now add an alert in the manifest, later we need to act according to local config
 		my $info = ( defined $hash_cache{ $file_path } && $hash_cache{ $file_path } ne $digest ) ? " # !checksum mismatch!" : "";
 
-		print $manifest_fh $digest . " " . $file_path . $info . "\n";
+		print $manifest_fh $digest . "  " . $file_path . $info . "\n";
 	}
 	close $manifest_fh;
 }	
