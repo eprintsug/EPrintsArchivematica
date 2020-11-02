@@ -41,7 +41,7 @@ sub output_dataobj
 	# create directory to store exported files
 	my $target_path = $session->config( "archivematica", "path" ) . "/$amid";
 	my $objects_path = "$target_path/objects";
-	my $metadata_path = "$target_path/metdadata";	
+	my $metadata_path = "$target_path/metadata";	
 
 	### objects
 	$self->_make_dir( $objects_path );
