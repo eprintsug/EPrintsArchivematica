@@ -8,6 +8,7 @@ package EPrints::Plugin::Export::Archivematica::EPrint;
 
 use EPrints::Plugin::Export::Archivematica;
 use File::Copy;
+use File::Spec;
 use Digest::MD5 qw(md5_hex);
 
 use JSON::PP;
@@ -324,8 +325,10 @@ sub output_dataobj
 		# Check if the recorded checksum matches the one just calculated.
 		# TODO : For now add an alert in the manifest, later we need to act according to local config
 		my $info = ( defined $hash_cache{ $file_path } && $hash_cache{ $file_path } ne $digest ) ? " # !checksum mismatch!" : "";
+		
+		my $relativePath = "../".File::Spec->abs2rel ($file_path,  $target_path);
 
-		print $manifest_fh $digest . "  " . $file_path . $info . "\n";
+		print $manifest_fh $digest . "  " . $relativePath . $info . "\n";
 	}
 	close $manifest_fh;
 }	
