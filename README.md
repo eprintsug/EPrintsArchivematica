@@ -24,6 +24,8 @@ https://spectrum.library.concordia.ca/983933/
 
 **process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  This script can also take the eprintID of an eprint to export as a parameter.  
 
+All three of these scripts can also take an optional parameter to limit the operation to a specific EPrintID.  This is especially useful for testing or troubleshooting the export of a specific eprint.
+
 ## Config Files:
 
 * /archives/REPOID/cfg/cfg.d/z_archivematica.pl   (set where the Archivematica transfer folder is in this file, this is where exports are written to)
