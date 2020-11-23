@@ -22,7 +22,7 @@ https://spectrum.library.concordia.ca/983933/
 
 **touch_transfers** will set is_dirty=1 on all existing archivematica records where its not already set.
 
-**process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  This script can also take the eprintID of an eprint to export as a parameter.  
+**process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  
 
 All three of these scripts can also take an optional parameter to limit the operation to a specific EPrintID.  This is especially useful for testing or troubleshooting the export of a specific eprint.
 
