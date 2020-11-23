@@ -71,11 +71,11 @@ Setting this to 0 would exclude anything such as thumbnail images and web access
 
 The `metadata/checksum.md5` file should follow the specifications detailed in the [Archivematica documentation for creating a transfer with existing checksums](https://www.archivematica.org/en/docs/archivematica-1.8/user-manual/transfer/transfer/#create-a-transfer-with-existing-checksums).
 
-Specifically, in this implementation, each line of the `checksum.md5` manifest should contain the md5 hash value for a file in the `objects` directory, followed by a space, followed by the relative path to the file from the `checksum.md5` file itself.
+Specifically, in this implementation, each line of the `checksum.md5` manifest should contain the md5 hash value for a file in the `objects` directory, followed by two spaces, followed by the relative path to the file from the `checksum.md5` file itself.
 
 Example:
 
-`2121dca88ad7f701d3f3e2d041004a56 ../objects/documents/my-doc.pdf`
+`2121dca88ad7f701d3f3e2d041004a56  ../objects/documents/my-doc.pdf`
 
 For files with MD5 values already recorded in the EPrints database, use these values in the manifest.  For these values already recorded in EPrints database, they should be checked (ie., recalculated for the file and compared to what is stored in EPrints) signalling an error if there is a mismatch.  These errors indicate that file corruption may have already taken place.  There should be a configuration option to control what happens in case of a checksum mismatch:
 
@@ -138,13 +138,32 @@ The Archivematica Storage Service will send back the AIP transfer folder name, w
 
 `curl -v -H "Content-Type: application/json;" -X PUT --data-binary "@/path/to/data.json" -u <username>:<password> http://myrepository.org/id/archivematica/<id>`
 
-where `<id>  = EPrintsArchivematicaDatasetID = transfer name`
-and `/path/to/data.json` contains the Archivematica UUID of the resulting AIP.
-
-The body of tha data.json response follows this format:
+where 
+```
+<amid> = EPrintsArchivematicaDatasetID = transfer name
+<uuid> = Archivematica Assigned UUID
+```
+and 
+`/path/to/data.json` contains the JSON file with the <amid> and <uuid> encoded with JSON.
+	
+In the Archivematica Storage Controller, the Callback is defined under Administration > Edit Callback as follows:
 
 ```
+Event: Post-store AIP
+URI: {YOUR REPOSITORY URL]/cgi/archivematica/set_uuid
+Method: POST
+```
+
+Headers (key/value):
+```
+Content-type: application/json
+Authorization: Basic [encoded username:password]
+```
+
+Body: 
+```
 {
-  'AIP UUID': '<UUID>'
-}
+"uuid": "<package_uuid>",
+"amid": "<package_name>"
+} 
 ```
