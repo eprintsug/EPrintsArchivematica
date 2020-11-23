@@ -136,7 +136,7 @@ The Archivematica Storage Service application has in-built functionality to make
 
 The Archivematica Storage Service will send back the AIP transfer folder name, which is the EPrintsArchivemticaDatasetID and the AM UUID using a CRUD callback (http://wiki.eprints.org/w/API:EPrints/Apache/CRUD). 
 
-`curl -v -H "Content-Type: application/json;" -X PUT --data-binary "@/path/to/data.json" -u <username>:<password> http://myrepository.org/id/archivematica/<id>`
+`curl -v -H "Content-Type: application/json;" -X PUT --data-binary "@/path/to/data.json" -u <username>:<password> http://myrepository.org/cgi/archivematica/set_uuid`
 
 where 
 ```
@@ -144,13 +144,19 @@ where
 <uuid> = Archivematica Assigned UUID
 ```
 and 
-`/path/to/data.json` contains the JSON file with the <amid> and <uuid> encoded with JSON.
+`/path/to/data.json` contains the JSON file with the `<amid>` and `<uuid>`:
+```
+{
+"uuid": "<uuid>",
+"amid": "<amid>"
+} 
+```
 	
-In the Archivematica Storage Controller, the Callback is defined under Administration > Edit Callback as follows:
+In the Archivematica Storage Service (https://www.archivematica.org/en/docs/storage-service-0.17/administrators/#administration), the Callback is defined under Administration > Edit Callback as follows:
 
 ```
 Event: Post-store AIP
-URI: {YOUR REPOSITORY URL]/cgi/archivematica/set_uuid
+URI: [YOUR REPOSITORY URL]/cgi/archivematica/set_uuid
 Method: POST
 ```
 
