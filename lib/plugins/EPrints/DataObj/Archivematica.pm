@@ -18,7 +18,7 @@ sub get_system_field_info
 		{ name => "amid", type => "counter", sql_counter => "archivematica", sql_index => 1 },
 		{ name => "datasetid", type => "id", required => 1, sql_index => 1 },
 		{ name => "dataobjid", type => "id", required => 1, sql_index => 1 },
-		{ name => "uuid", type => "int", sql_index => 1 },
+		{ name => "uuid", type => "text", sql_index => 1 },
 		{ 
 			name => "result_log",
 		  	type => "compound",

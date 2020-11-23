@@ -2,6 +2,18 @@ use EPrints;
 use EPrints::Apache::AnApache;
 use strict;
 
+my $json = undef;
+if( $ENV{CONTENT_LENGTH} ) 
+{
+  use JSON;
+  use Encode;
+  my $buffer = '';
+  read(STDIN,$buffer,$ENV{CONTENT_LENGTH});
+  my $json_decoder = JSON->new;
+  $buffer = decode_utf8( $buffer );
+  $json = $json_decoder->decode( $buffer );
+}
+
 my $session = EPrints::Session->new();
 
 # If there is no current user, then attempt to login via auth_basic details
@@ -30,10 +42,12 @@ if( !defined( $session->current_user ) )
 $session->send_http_header( content_type => "text/json" );
 
 my $amid = $session->param( "amid" );
-$amid =~ s/[^0-9]//; # digits only
+   $amid = $json->{"amid"} if $json && $json->{"amid"};
+   $amid =~ s/[^0-9]//g; # digits only
 
 my $uuid = $session->param( "uuid" );
-$uuid =~ s/[^0-9]//; # digits only
+   $uuid = $json->{"uuid"} if $json && $json->{"uuid"};
+   $uuid =~ s/[^0-9\-a-z]//g; # digits, letters and dashes only
 
 if( ! $session->current_user->has_role( "archivematica/export" ) )
 {
@@ -74,4 +88,3 @@ $plugin->initialise_fh( \*STDOUT );
 $plugin->output_list( list=>$list, fh=>*STDOUT );
 
 $session->terminate();
-
