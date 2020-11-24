@@ -1,3 +1,19 @@
+Table of Contents
+=================
+
+   * [EPrints - Archivematica Integration](#eprints---archivematica-integration)
+   * [Usage](#usage)
+      * [BIN Scripts:](#bin-scripts)
+         * [Run these scripts with the command line](#run-these-scripts-with-the-command-line)
+      * [Config Files:](#config-files)
+   * [Summary](#summary)
+   * [Implementation details](#implementation-details)
+      * [Derivatives](#derivatives)
+      * [Checksum manifest](#checksum-manifest)
+      * [Preservation Management Screen](#preservation-management-screen)
+      * [Preservation Triggers](#preservation-triggers)
+      * [Archivematica Sending Information Back to EPrints](#archivematica-sending-information-back-to-eprints)
+
 # EPrints - Archivematica Integration
 
 Digital Preservation through EPrints-Archivematica Integration - An EPrints export plugin for contents to be preserved with Archivematica
