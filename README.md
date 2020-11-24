@@ -142,8 +142,8 @@ The Archivematica Storage Service will send back the AIP transfer folder name, w
 
 where 
 ```
-<amid> = EPrintsArchivematicaDatasetID = transfer name
-<uuid> = Archivematica Assigned UUID
+<amid> = EPrintsArchivematicaDatasetID = transfer name = <package_name>
+<uuid> = Archivematica Assigned UUID = <package_uuid>
 ```
 and 
 `/path/to/data.json` contains the JSON file with the `<amid>` and `<uuid>`:
