@@ -50,6 +50,9 @@ use Pod::Usage;
 
 my $version = 0;
 my $verbose = 0;
+my $force = 0;
+my $datasetid = 'eprint'; # default to eprint
+my $dataobjid = '';
 my $help = 0;
 my $man = 0;
 
@@ -59,6 +62,9 @@ GetOptions(
         'help|?' => \$help,
         'version' => \$version,
         'verbose+' => \$verbose,
+        'datasetid=s' => \$datasetid,
+        'dataobjid=s' => \$dataobjid,
+        'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "touch_transfers" ) if $version;
 pod2usage( 1 ) if $help;
@@ -69,48 +75,36 @@ my $noise = 1;
 $noise = 1+$verbose if( $verbose );
 
 my $repoid = shift(@ARGV);
-my $eprintid = shift(@ARGV);
 my $session = new EPrints::Session( 1 , $repoid , $noise );
 if( !defined $session )
 {
-        print STDERR "Failed to load repository: $repoid\n";	
+        print STDERR "Failed to load repository: $repoid\n";
         exit 1;
 }
 
-
-
 my $ds = $session->dataset( "archivematica" );
-
-
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 0, "EQ" ) unless $force;
 
-# Limit to just one eprint if an eprintid is specified
-if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
+if( $datasetid && $dataobjid )
 {
-	$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprintid, "EQ" );
-	my $listForEPrintID = $searchexp->perform_search;
-	
-	 $listForEPrintID->map( sub {
-		my( $session, $dataset, $am ) = @_;
-			if ($am->get_value( "is_dirty") == 1){
-				print "Archivemtaica object ID ".$am->id."  for EprintID ".$am->get_value("dataobjid")." is already set to dirty\n" if $verbose;
-			}
-    });
+	print "Limiting to $datasetid/$dataobjid\n" if $verbose;
+	$searchexp->add_field( $ds->get_field( "datasetid" ), $datasetid, "EQ" );
+	$searchexp->add_field( $ds->get_field( "dataobjid" ), $dataobjid, "EQ" );
 }
 
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 0, "EQ" );
+my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
 
 my $list = $searchexp->perform_search;
 
-    print "Found " . $list->count() . " records to process.\n" if $verbose;
-    $list->map( sub {
-		my( $session, $dataset, $am ) = @_;
-		print "Processing Archivematica object ID: " . $am->id . "\n" if $verbose;
-			$am->set_value( "is_dirty", 1 );
-			$am->commit();
-			print "Archivemtaica object ID ".$am->id." for EprintID ".$am->get_value("dataobjid")." has been set to dirty\n" if $verbose;
-    });
+print "Found " . $list->count() . " records to process.\n" if $verbose;
+$list->map( sub {
+	my( $session, $dataset, $am ) = @_;
 
+	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
 
+	$am->set_value( "is_dirty", 1 );
+	$am->commit();
+});
 
 $session->terminate();

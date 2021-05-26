@@ -54,6 +54,9 @@ use Pod::Usage;
 
 my $version = 0;
 my $verbose = 0;
+my $force = 0;
+my $datasetid = 'eprint'; # default to eprint
+my $dataobjid = '';
 my $help = 0;
 my $man = 0;
 
@@ -64,6 +67,9 @@ GetOptions(
         'man' => \$man,
         'version' => \$version,
         'verbose+' => \$verbose,
+        'datasetid=s' => \$datasetid,
+        'dataobjid=s' => \$dataobjid,
+        'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "process_transfers" ) if $version;
 pod2usage( 1 ) if $help;
@@ -74,8 +80,6 @@ my $noise = 1;
 $noise = 1+$verbose if( $verbose );
 
 my $repoid = shift(@ARGV);
-my $eprintid = shift(@ARGV);
-
 my $session = new EPrints::Session( 1 , $repoid , $noise );
 if( !defined $session )
 {
@@ -83,14 +87,18 @@ if( !defined $session )
 	exit 1;
 }
 
-my $ds = $session->dataset( "eprint" );
+my $ds = $session->dataset( $datasetid );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-$searchexp->add_field( $ds->get_field( "eprint_status" ), "archive", "EQ" );
-if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
+
+$searchexp->add_field( $ds->get_field( "eprint_status" ), "archive", "EQ" ) if $datasetid eq "eprint"; # very eprint ds specific
+
+if( $datasetid && $dataobjid )
 {
-	$searchexp->add_field( $ds->get_field( "eprintid" ), $eprintid, "EQ" );
-	print "Limiting search to EPrintID ".$eprintid.".\n" if $verbose;
+        print "Limiting to $datasetid/$dataobjid\n" if $verbose;
+        # $searchexp->add_field( $ds->get_field( "datasetid" ), $datasetid, "EQ" );
+        $searchexp->add_field( $ds->get_key_field(), $dataobjid, "EQ" );
 }
+
 my $list = $searchexp->perform_search;
 
 my $a_ds = $session->dataset( "archivematica" );
@@ -98,30 +106,30 @@ my $a_ds = $session->dataset( "archivematica" );
 print "Found " . $list->count() . " records to process.\n" if $verbose;
 my $created = 0;
 $list->map( sub {
-	my( $session, $dataset, $eprint ) = @_;
+	my( $session, $dataset, $obj ) = @_;
 
 	# create an archivematica record for this item if one doesnt exist
 
 	my $a_searchexp = new EPrints::Search( session=>$session, dataset=>$a_ds );
-	$a_searchexp->add_field( $a_ds->get_field( "datasetid" ), "eprint", "EQ" );
-	$a_searchexp->add_field( $a_ds->get_field( "dataobjid" ), $eprint->id, "EQ" );
+	$a_searchexp->add_field( $a_ds->get_field( "datasetid" ), $datasetid, "EQ" );
+	$a_searchexp->add_field( $a_ds->get_field( "dataobjid" ), $obj->id, "EQ" );
 	my $a_list = $a_searchexp->perform_search;
 
 	# return if $created > 5;
 	if( !$a_list || $a_list->count() == 0 )
 	{
-		print "Creating record for: " . $eprint->id . "\n" if $verbose;
+		print "Creating record for: " . $obj->id . "\n" if $verbose;
 		# create a new entry
 		$session->dataset( "archivematica" )->create_dataobj({
-			datasetid => "eprint",
-			dataobjid => $eprint->id,
+			datasetid => $datasetid,
+			dataobjid => $obj->id,
 			is_dirty => 1,
 		});
 		$created++;
 	}
 	else
 	{
-		print "Record exists for: " . $eprint->id . "\n" if $verbose;
+		print "Record exists for: " . $obj->id . "\n" if $verbose;
 	}
 });
 

@@ -65,6 +65,9 @@ use Pod::Usage;
 
 my $version = 0;
 my $verbose = 0;
+my $force = 0;
+my $datasetid = 'eprint'; # default to eprint
+my $dataobjid = '';
 my $quiet = 0;
 my $help = 0;
 my $man = 0;
@@ -77,7 +80,10 @@ GetOptions(
         'version' => \$version,
         'verbose+' => \$verbose,
         'silent' => \$quiet,
-        'quiet' => \$quiet
+        'quiet' => \$quiet,
+        'datasetid=s' => \$datasetid,
+        'dataobjid=s' => \$dataobjid,
+        'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "process_transfers" ) if $version;
 pod2usage( 1 ) if $help;
@@ -89,7 +95,6 @@ $noise = 0 if( $quiet );
 $noise = 1+$verbose if( $verbose );
 
 my $repoid = shift(@ARGV);
-my $eprintid = shift(@ARGV);
 my $session = new EPrints::Session( 1 , $repoid , $noise );
 if( !defined $session )
 {
@@ -109,28 +114,14 @@ if( !defined $session )
 # Find all the Archivematica records which have a is_dirty set to 1
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" ) unless $force; # can use --force to match all records
 
-
-# Limit to just one eprint if an eprintid is specified
-if( defined $eprintid && $eprintid =~ /^[0-9]+$/ )
+if( $datasetid && $dataobjid )
 {
-	$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprintid, "EQ" );
-	my $listForEPrintID = $searchexp->perform_search;
-	
-	 $listForEPrintID->map( sub {
-		my( $session, $dataset, $am ) = @_;
-			if ($am->get_value( "is_dirty") == 0){
-				print "Archivemtaica object ID ".$am->id." for EprintID ".$am->get_value("dataobjid")." is not set to dirty so will not be processed.  Use touch_transfers to set it to dirty if required.\n" if $verbose;
-			}
-    });
+	print "Limiting to $datasetid/$dataobjid\n" if $verbose;
+	$searchexp->add_field( $ds->get_field( "datasetid" ), $datasetid, "EQ" );
+	$searchexp->add_field( $ds->get_field( "dataobjid" ), $dataobjid, "EQ" );
 }
-else {
-	$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
-}
-
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" );
-
-
 my $list = $searchexp->perform_search;
 
 my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
@@ -140,14 +131,33 @@ print "Found " . $list->count() . " records to process.\n" if $verbose;
 $list->map( sub {
 	my( $session, $dataset, $am ) = @_;
 
-	print "Processing: " . $am->id . "\n" if $verbose;
+	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
 
-	my $eprint = $am->get_dataobj();
+	my $obj = $am->get_dataobj();
 	my %opts;
 	$opts{amid} = $am->id;
 
-	$plugin->output_dataobj( $eprint, %opts );
+	my @results = ( $plugin->output_dataobj( $obj, %opts ) );
+	foreach my $r ( @results )
+	{
+		print "* $r\n" if $verbose;
+
+		# crude error handling, should give us plenty of context to work with though
+		if( $r =~ /\[0\] / ) # if entry starts with [0] (rather than [1]) then there is a problem
+		{
+			my $failure = $';
+			print "PROBLEM DETECTED WITH " . $am->id . " CANCELLING\n";
+			print "> " . $r . "\n";
+
+			# We need to do the error logging here as we cant alter the Archivematica record while at the same time exporting it.
+			$am->add_to_record_log( "process_transfer", $failure, "failure" );
+			$am->commit();
+			exit(1); # cancel everything else
+		}
+	}
+
 	$am->set_value( "is_dirty", 0 );
+        $am->add_to_record_log( "process_transfer", "exported", "success" );
 	$am->commit();
 });
 
