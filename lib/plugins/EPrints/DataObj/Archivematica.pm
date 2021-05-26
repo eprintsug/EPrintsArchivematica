@@ -25,7 +25,8 @@ sub get_system_field_info
 			multiple => 1,
 			fields => [
 				{ sub_name => "timestamp", type => "timestamp", },
-				{ sub_name => "action", type => "set" , options => [qw( create_transfer )] }, # more actions may be added later
+				{ sub_name => "action", type => "set" , options => [qw( create_transfer update_transfer info )] }, # more actions may be added later
+				{ sub_name => "comment", type => "text", allow_null => 1, input_cols => 20 }, # optional text comment
 				{ sub_name => "result", type => "set", options => [qw( success fail )] },
         		],
 		},
@@ -42,11 +43,24 @@ sub get_dataobj
 	return $ds->dataobj( $self->value( "dataobjid" ) );
 }
 
+# eg $a->add_to_record_log( "create_transfer", "this is a new transfer", "success" );
 sub add_to_record_log
 {
-	my( $class, $action, $result_code ) = @_;
+	my( $self, $action, $comment, $result ) = @_;
 
-	# To do: Add time, action and result to the record log
+	my $timestamp = EPrints::Time::get_iso_timestamp();
+	my @log = @{ $self->get_value( "result_log" ) };
+
+	my $new_entry =
+	{
+		timestamp => $timestamp,
+		action => $action,
+		comment => $comment,
+		result => $result,
+	};
+
+	push @log, $new_entry;
+	$self->set_value( "result_log", \@log );
 }
 
 1;
