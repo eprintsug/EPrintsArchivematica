@@ -18,6 +18,7 @@ cp -r cfg/cfg.d $I
 # cp -r cfg/citations $I # unused?
 
 cp -r lib/citations $I
+cp -r lib/static $I
 cp -r lib/lang $I
 cp -r lib/plugins $I
 cp -r lib/workflows $I
