@@ -70,12 +70,15 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 			#print STDERR "trigger: use existing archivematica entry\n";
 			# take the first result and set is_dirty if its not already set
 			my $a = $list->item(0);
+			$a->add_to_record_log( "info", "updating", "success" );
 			if( $a->get_value( "is_dirty" ) == 0 )
 			{
 				$a->set_value( "is_dirty", 1 );
-				$a->commit();
+				#$a->commit();
 				#print STDERR "trigger: set archivematica entry as dirty\n";
 			}
+			$a->commit();
+
 		}
 		else
 		{
