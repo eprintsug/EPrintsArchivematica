@@ -38,6 +38,7 @@ sub output_dataobj
 	my $session = $self->{session};
 
 	my $amid = $opts{amid};
+	my @results = $self->_log("Export", "start $amid", 1);
 
 	# create directory to store exported files
 	my $target_path = $session->config( "archivematica", "path" ) . "/$amid";
@@ -79,7 +80,8 @@ sub output_dataobj
 			my $ht = $file->get_value( 'hash_type' );
 
 			$hash_cache{ "$file_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
-			copy($local_path, "$file_path/$filename") or die "Copy failed: $!";
+			my $ok = copy($local_path, "$file_path/$filename"); # or warn "Copy failed: $!";
+			push @results, $self->_log("Copy", "'$local_path' '$file_path/$filename'", $ok);
 		}
 	}
 
@@ -110,7 +112,8 @@ sub output_dataobj
 				my $ht = $file->get_value( "hash_type" );
 
 				$hash_cache{ "$pos_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
-                	        copy($file_path, "$pos_path/$filename") or die "Copy failed: $!";
+				my $ok = copy($file_path, "$pos_path/$filename"); # or warn "Copy failed: $!";
+				push @results, $self->_log("Copy", "'$file_path' '$pos_path/$filename'", $ok);
 	                }
 		}
 	}
@@ -121,6 +124,7 @@ sub output_dataobj
 	## ep3.xml
 	my $xml = $session->xml;
         my $doc = $xml->parse_string( $dataobj->export( "XML" ) );
+	push @results, $self->_log("Write", "$metadata_path/EP3.xml", 1); 
 	EPrints::XML::write_xml_file( $doc, "$metadata_path/EP3.xml" );
 	
 	## revisions 
@@ -130,13 +134,14 @@ sub output_dataobj
 
 	# now copy the actual revisions
 	my $eprint_revisions_path = $dataobj->local_path . "/revisions";
-	opendir my $eprint_revisions_dir, "$eprint_revisions_path" or die "Cannot open directory: $!";
+	opendir my $eprint_revisions_dir, "$eprint_revisions_path" or warn "Cannot open directory: $!";
 	my @revisions = readdir $eprint_revisions_dir;
 	foreach my $revision ( @revisions )
 	{
 		if( $revision =~ /^[\d]+\.xml$/ )
 		{
-			copy("$eprint_revisions_path/$revision", "$revisions_path/$revision") or die "Copy failed: $!";
+			my $ok = copy("$eprint_revisions_path/$revision", "$revisions_path/$revision"); # or warn "Copy failed: $!";
+			push @results, $self->_log("Copy", "'$eprint_revisions_path/$revision' '$revisions_path/$revision'", $ok);
 		}
 	}
 
@@ -298,7 +303,7 @@ sub output_dataobj
 	
 	#print json to metadata.json file
 	my $dc_file_path = "$metadata_path/metadata.json";
-	open(my $fh, '>', $dc_file_path) or die "Could not open file '$dc_file_path' $!";
+	open(my $fh, '>', $dc_file_path) or warn "Could not open file '$dc_file_path' $!";
 	print $fh $json;
 	close $fh;
 	
@@ -311,12 +316,12 @@ sub output_dataobj
 	
 	# set up the manifest file
 	my $manifest_file_path = "$metadata_path/checksum.md5";
-	open(my $manifest_fh, '>', $manifest_file_path) or die "Could not open file '$manifest_file_path' $!";
+	open(my $manifest_fh, '>', $manifest_file_path) or warn "Could not open file '$manifest_file_path' $!";
 	
 	# loop through the files in the objects dir and add them to manifest
 	foreach my $file_path ( @file_paths )
 	{
-		open(my $fh, '<', $file_path) or die "Could not open file '$file_path' $!";
+		open(my $fh, '<', $file_path) or warn "Could not open file '$file_path' $!";
 		my $ctx = Digest::MD5->new;
 		$ctx->addfile( $fh );
 		my $digest = $ctx->hexdigest;
@@ -328,10 +333,26 @@ sub output_dataobj
 		
 		my $relativePath = "../".File::Spec->abs2rel ($file_path,  $target_path);
 
+                my $ok = ( defined $hash_cache{ $file_path } && $hash_cache{ $file_path } ne $digest ) ? 0 : 1;
+# if( $digest eq "b279ef4488a7d6c12d4e95c5249389f2" ) { $ok = 0 } # fake up a checksum error - justin
+                push @results, $self->_log("Manifest", "Checksum correct for '$file_path$info' ($digest)", $ok) if $ok == 1;
+                push @results, $self->_log("Manifest", "Checksum error for '$file_path$info' ($digest)", $ok) if $ok == 0;
+
 		print $manifest_fh $digest . "  " . $relativePath . $info . "\n";
 	}
 	close $manifest_fh;
+
+	push @results, $self->_log("Export", "end $amid", 1);
+
+	return @results;
 }	
+
+sub _log
+{
+	my( $self, $verb, $text, $ok ) = @_;
+
+	return "[$ok] $verb - $text";
+}
 
 sub _make_dir
 {
@@ -350,7 +371,7 @@ sub _read_dir
 
 	if( -d $path ) # we have a directory
 	{
-		opendir my $dir, "$path" or die "Cannot open directory: $!";
+		opendir my $dir, "$path" or warn "Cannot open directory: $!";
 		my @contents = readdir $dir;
 		closedir $dir;
 		foreach my $item ( @contents )
