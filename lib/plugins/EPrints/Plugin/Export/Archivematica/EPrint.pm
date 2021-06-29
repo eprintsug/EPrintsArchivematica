@@ -297,9 +297,9 @@ sub output_dataobj
 	
 	
 	#convert hash to json
-	my $json_export = $session->plugin( "Export::JSON" );
-	my $json = '['.$json_export->output_dataobj( $hash_to_json_data ).']';
-	
+	# my $json_export = $session->plugin( "Export::JSON" );
+	# my $json = '['.$json_export->output_dataobj( $hash_to_json_data ).']';
+	my $json = encode_json( $hash_to_json_data );	
 	
 	#print json to metadata.json file
 	my $dc_file_path = "$metadata_path/metadata.json";
@@ -333,8 +333,9 @@ sub output_dataobj
 		
 		my $relativePath = "../".File::Spec->abs2rel ($file_path,  $target_path);
 
-                my $ok = ( defined $hash_cache{ $file_path } && $hash_cache{ $file_path } ne $digest ) ? 0 : 1;
-# if( $digest eq "b279ef4488a7d6c12d4e95c5249389f2" ) { $ok = 0 } # fake up a checksum error - justin
+		my $ok = ( !defined( $hash_cache{ $file_path } ) || $hash_cache{ $file_path } ne $digest ) ? 0 : 1;
+
+		# if( $digest eq "b279ef4488a7d6c12d4e95c5249389f2" ) { $ok = 0 } # fake up a checksum error - justin
                 push @results, $self->_log("Manifest", "Checksum correct for '$file_path$info' ($digest)", $ok) if $ok == 1;
                 push @results, $self->_log("Manifest", "Checksum error for '$file_path$info' ($digest)", $ok) if $ok == 0;
 
