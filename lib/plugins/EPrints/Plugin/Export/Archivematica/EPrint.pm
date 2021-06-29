@@ -46,7 +46,8 @@ sub output_dataobj
 	my $metadata_path = "$target_path/metadata";	
 
 	### objects
-	$self->_make_dir( $objects_path );
+	my $rv = $self->_make_dir( $objects_path );
+	push @results, $self->_log("Mkdir", "Directory already exists '$objects_path'", 2) if $rv == -1;
 
 	## documents
 	my $documents_path = "$objects_path/documents";
@@ -119,7 +120,8 @@ sub output_dataobj
 	}
 
 	### metadata
-	$self->_make_dir( $metadata_path );
+	$rv = $self->_make_dir( $metadata_path );
+	push @results, $self->_log("Mkdir", "Directory already exists '$metadata_path'", 2) if $rv == -1;
 
 	## ep3.xml
 	my $xml = $session->xml;
@@ -359,11 +361,14 @@ sub _make_dir
 {
 	my( $self, $dir ) = @_;
 
-	unless( -d $dir )
-        {
-                EPrints::Platform::mkdir( $dir );
-        }
-
+	if( -d $dir )
+	{
+		return -1;
+	}
+	else
+	{
+		return EPrints::Platform::mkdir( $dir );
+	}
 }
 
 sub _read_dir
