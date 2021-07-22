@@ -301,7 +301,7 @@ sub output_dataobj
 	#convert hash to json
 	# my $json_export = $session->plugin( "Export::JSON" );
 	# my $json = '['.$json_export->output_dataobj( $hash_to_json_data ).']';
-	my $json = encode_json( $hash_to_json_data );	
+	my $json = '['.encode_json( $hash_to_json_data ).']';	
 	
 	#print json to metadata.json file
 	my $dc_file_path = "$metadata_path/metadata.json";
