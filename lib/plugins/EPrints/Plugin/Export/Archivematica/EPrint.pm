@@ -303,6 +303,9 @@ sub output_dataobj
 	# my $json = '['.$json_export->output_dataobj( $hash_to_json_data ).']';
 	my $json = '['.encode_json( $hash_to_json_data ).']';	
 	
+	#add filename (objects/documents folder) as the first key-value pair, otherwise, Archivematica doesn't include/index this metadata in the METS file
+	substr($json,0,2) = "[{\"filename\":\"objects/documents\",";	
+	
 	#print json to metadata.json file
 	my $dc_file_path = "$metadata_path/metadata.json";
 	open(my $fh, '>', $dc_file_path) or warn "Could not open file '$dc_file_path' $!";
