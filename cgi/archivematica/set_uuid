@@ -43,6 +43,8 @@ $session->send_http_header( content_type => "text/json" );
 
 my $amid = $session->param( "amid" );
    $amid = $json->{"amid"} if $json && $json->{"amid"};
+   #ignore instances when Archivematica assigns a version number to the amid using the underscore, for example: 1_4, the amid is still 1
+   $amid =~ s/_.*$//g; #ignore underscore version
    $amid =~ s/[^0-9]//g; # digits only
 
 my $uuid = $session->param( "uuid" );
