@@ -1,3 +1,5 @@
+![EPrints to Archivematica Transfer](https://github.com/eprintsug/EPrintsArchivematica/blob/master/lib/static/epm/images/EPrintsArchivematica.png)
+
 Table of Contents
 =================
 
