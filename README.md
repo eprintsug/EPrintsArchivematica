@@ -111,7 +111,7 @@ It should be set to 0 by default, and if set to 1, in addition to the problemati
 
 $c->{DPExport}={DP-admin-email}="[email address]"
 
-For files with no MD5 value in the EPrints database:
+## Files with no MD5 value in the EPrints database
 
 The following option is used to control if the export routines generate the missing checksum and add it to the EPrints database:
 
