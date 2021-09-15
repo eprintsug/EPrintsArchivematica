@@ -78,12 +78,19 @@ sub output_dataobj
 			my $local_path = $doc->local_path . "/" . $filename;
 
 			my $h = $file->get_value( 'hash' );
-			#reshash this file if no hash is found
+			
+			#warn/act on missing hashes in EPrints
 			if (! defined ($h)) {
-				push @results, $self->_log("WARNING - Checksum MISSING - generating new MD5 for file ", "'$file_path/$filename'", 2);
-				$file->update_md5;
-				$file->commit;
-				$h = $file->get_value( 'hash' );
+				push @results, $self->_log("WARNING - Checksum MISSING - ", "'$file_path/$filename'", 2);
+				if( $session->config( 'DPExport', 'add_missing_checksums' ) ) {# only rehash if enabled
+					push @results, $self->_log("Hashing new MD5 for file ", "'$file_path/$filename'", 2);
+					$file->update_md5;
+					$file->commit;
+					$h = $file->get_value( 'hash' );
+					}
+				else {
+					push @results, $self->_log("Automatic rehashing disabled, enable with add_missing_checksums in plugin config", "'$file_path/$filename'", 2);
+					}
 			}
 			my $ht = $file->get_value( 'hash_type' );
 
@@ -117,12 +124,18 @@ sub output_dataobj
         	                my $file_path = $doc->local_path . "/" . $filename;
 
 				my $h = $file->get_value( "hash" );
-				#reshash this file if no hash is found
+				#warn/act on missing hashes in EPrints
 				if (! defined ($h)) {
-					push @results, $self->_log("WARNING - Checksum MISSING - generating new MD5 for file ", "'$file_path/$filename'", 2);
-					$file->update_md5;
-					$file->commit;
-					$h = $file->get_value( 'hash' );
+					push @results, $self->_log("WARNING - Checksum MISSING - ", "'$file_path/$filename'", 2);
+					if( $session->config( 'DPExport', 'add_missing_checksums' ) ) {# only rehash if enabled
+						push @results, $self->_log("Hashing new MD5 for file ", "'$file_path/$filename'", 2);
+						$file->update_md5;
+						$file->commit;
+						$h = $file->get_value( 'hash' );
+						}
+					else {
+						push @results, $self->_log("Automatic rehashing disabled, enable with add_missing_checksums in plugin config", "'$file_path/$filename'", 2);
+						}
 				}
 				my $ht = $file->get_value( "hash_type" );
 

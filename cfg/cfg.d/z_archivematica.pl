@@ -25,6 +25,10 @@ push @{$c->{user_roles}->{admin}}, qw{ +archivematica/view +archivematica/destro
 # Set archivematica transfer location
 $c->{archivematica}->{path} = $c->{archiveroot}.'/archivematica';
 
+
+# Automatically generate missing checksums in EPrints database during export
+$c->{DPExport}->{add_missing_checksums} = 1;
+
 # Include Derivatives?
 $c->{DPExport}->{include_derivatives} = 1;
 
