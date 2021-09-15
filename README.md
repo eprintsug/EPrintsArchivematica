@@ -113,10 +113,18 @@ $c->{DPExport}={DP-admin-email}="[email address]"
 
 For files with no MD5 value in the EPrints database:
 
+The following option is used to control if the export routines generate the missing checksum and add it to the EPrints database:
+
+$c->{DPExport}->{add_missing_checksums} = 1|0;
+
+If this is set to 1, the following happens:
+
 * Generate a new MD5 from the file on disk
 * Write the MD5 to the EPrints database
 * Write the MD5 to the `checksum.md5` manifest
-* Note that the MD5 was generated for the given file in the eprints' digital preservation warnings field
+* Note that the MD5 was generated for the given file in the eprints' digital preservation warnings log
+
+If it is set to 0, the missing checksum will result in a checksum mismatch.
 
 ## Preservation Management Screen
 
