@@ -12,6 +12,7 @@ Table of Contents
    * [Implementation details](#implementation-details)
       * [Derivatives](#derivatives)
       * [Checksum manifest](#checksum-manifest)
+      	 * [Checksum Mismatch](#checksum-mismatch)
       	 * [Files with no MD5 value in the EPrints database](#files-with-no-md5-value-in-the-eprints-database) 
       * [Preservation Management Screen](#preservation-management-screen)
       * [Preservation Triggers](#preservation-triggers)
@@ -97,6 +98,8 @@ Specifically, in this implementation, each line of the `checksum.md5` manifest s
 Example:
 
 `2121dca88ad7f701d3f3e2d041004a56  ../objects/documents/my-doc.pdf`
+
+### Checksum Mismatch
 
 For files with MD5 values already recorded in the EPrints database, use these values in the manifest.  For these values already recorded in EPrints database, they should be checked (ie., recalculated for the file and compared to what is stored in EPrints) signalling an error if there is a mismatch.  These errors indicate that file corruption may have already taken place.  There should be a configuration option to control what happens in case of a checksum mismatch:
 
