@@ -12,6 +12,7 @@ Table of Contents
    * [Implementation details](#implementation-details)
       * [Derivatives](#derivatives)
       * [Checksum manifest](#checksum-manifest)
+      	 * [Files with no MD5 value in the EPrints database](#files-with-no-md5-value-in-the-eprints-database) 
       * [Preservation Management Screen](#preservation-management-screen)
       * [Preservation Triggers](#preservation-triggers)
       * [Archivematica Sending Information Back to EPrints](#archivematica-sending-information-back-to-eprints)
@@ -111,7 +112,7 @@ It should be set to 0 by default, and if set to 1, in addition to the problemati
 
 $c->{DPExport}={DP-admin-email}="[email address]"
 
-## Files with no MD5 value in the EPrints database
+### Files with no MD5 value in the EPrints database
 
 The following option is used to control if the export routines generate the missing checksum and add it to the EPrints database:
 
