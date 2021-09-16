@@ -89,7 +89,7 @@ sub output_dataobj
 					$h = $file->get_value( 'hash' );
 					}
 				else {
-					push @results, $self->_log("Automatic rehashing disabled, enable with add_missing_checksums in plugin config", "'$file_path/$filename'", 2);
+					push @results, $self->_log("Automatic rehashing disabled, enable with add_missing_checksums in plugin config", "'$file_path/$filename'", 3);
 					}
 			}
 			my $ht = $file->get_value( 'hash_type' );
