@@ -146,7 +146,11 @@ $list->map( sub {
 		# crude error handling, should give us plenty of context to work with though
 		if( $r =~ /\[2\] / ) # if entry starts with [2] (rather than [1]) then there is a warning, add those to the log
 		{
-			$warnings .= $'.". ";
+			my $warning_snippet=$';
+			if (length($warning_snippet)>45){
+							$warning_snippet = (substr $warning_snippet, 0, 45).'...';
+			}
+			$warnings .= $warning_snippet.". ";
 		}
 		
 		if( $r =~ /\[0\] / ) # if entry starts with [0] (rather than [1]) then there is a problem
@@ -156,7 +160,7 @@ $list->map( sub {
 			print "> " . $r . "\n";
 
 			# We need to do the error logging here as we cant alter the Archivematica record while at the same time exporting it.
-			$am->add_to_record_log( "process_transfer", $warnings.$failure, "failure" );
+			$am->add_to_record_log( "process_transfer", $failure.'. '.$warnings, "failure" );
 			$am->commit();
 			exit(1); # cancel everything else
 		}
