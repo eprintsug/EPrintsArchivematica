@@ -111,10 +111,10 @@ if( !defined $session )
 # 4. Write the result to file where Archivematica can pick it up
 # 5. Record a log of the result in the Arcivhematica record
 
-# Find all the Archivematica records which have a is_dirty set to 1
+# Find all the Archivematica records which have a is_dirty set to TRUE
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 1, "EQ" ) unless $force; # can use --force to match all records
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 'TRUE', "EQ" ) unless $force; # can use --force to match all records
 
 if( $datasetid && $dataobjid )
 {
@@ -126,7 +126,7 @@ my $list = $searchexp->perform_search;
 
 my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
 
-# Export all the is_dirty = 1 records, setting is_dirty = 0 as we go.
+# Export all the is_dirty = TRUE records, setting is_dirty = FALSE as we go.
 print "Found " . $list->count() . " records to process.\n" if $verbose;
 $list->map( sub {
 	my( $session, $dataset, $am ) = @_;
@@ -166,7 +166,7 @@ $list->map( sub {
 		}
 	}
 
-	$am->set_value( "is_dirty", 0 );
+	$am->set_value( "is_dirty", 'FALSE' );
         $am->add_to_record_log( "process_transfer", $warnings."exported", "success" );
 	$am->commit();
 });

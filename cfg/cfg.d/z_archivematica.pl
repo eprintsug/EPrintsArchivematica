@@ -77,7 +77,7 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 			$a->add_to_record_log( "info", "updating", "success" );
 			if( $a->get_value( "is_dirty" ) == 0 )
 			{
-				$a->set_value( "is_dirty", 1 );
+				$a->set_value( "is_dirty", 'TRUE' );
 				#$a->commit();
 				#print STDERR "trigger: set archivematica entry as dirty\n";
 			}
@@ -91,7 +91,7 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 			$session->dataset( "archivematica" )->create_dataobj({
 				datasetid => "eprint",
 				dataobjid => $eprint->id,
-				is_dirty => 1,
+				is_dirty => 'TRUE',
 			});
 		}
 	}

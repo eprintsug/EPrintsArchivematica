@@ -61,7 +61,7 @@ sub action_create_archivematica_record
 		$session->dataset( "archivematica" )->create_dataobj({
 			datasetid => "eprint",
 			dataobjid => $eprint->id,
-			is_dirty => 1,
+			is_dirty => 'TRUE',
 		}); 
 		$self->{processor}->add_message( "message", $self->html_phrase( "create_transfer" ) );
 	}

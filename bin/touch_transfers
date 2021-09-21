@@ -84,7 +84,7 @@ if( !defined $session )
 
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 0, "EQ" ) unless $force;
+$searchexp->add_field( $ds->get_field( "is_dirty" ), 'FALSE', "EQ" ) unless $force;
 
 if( $datasetid && $dataobjid )
 {
@@ -103,7 +103,7 @@ $list->map( sub {
 
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
 
-	$am->set_value( "is_dirty", 1 );
+	$am->set_value( "is_dirty", 'TRUE' );
 	$am->commit();
 });
 

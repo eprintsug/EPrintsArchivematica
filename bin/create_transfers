@@ -123,7 +123,7 @@ $list->map( sub {
 		$session->dataset( "archivematica" )->create_dataobj({
 			datasetid => $datasetid,
 			dataobjid => $obj->id,
-			is_dirty => 1,
+			is_dirty => 'TRUE',
 		});
 		$created++;
 	}
