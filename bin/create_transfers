@@ -120,11 +120,13 @@ $list->map( sub {
 	{
 		print "Creating record for: " . $obj->id . "\n" if $verbose;
 		# create a new entry
-		$session->dataset( "archivematica" )->create_dataobj({
+		my $am=$session->dataset( "archivematica" )->create_dataobj({
 			datasetid => $datasetid,
 			dataobjid => $obj->id,
 			is_dirty => 'TRUE',
 		});
+		$am->add_to_record_log( "create_transfer", "created", "success" );
+		$am->commit();
 		$created++;
 	}
 	else

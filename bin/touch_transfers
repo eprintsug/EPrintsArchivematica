@@ -104,6 +104,7 @@ $list->map( sub {
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
 
 	$am->set_value( "is_dirty", 'TRUE' );
+	$am->add_to_record_log( "info", "trigger new transfer", "success" );
 	$am->commit();
 });
 

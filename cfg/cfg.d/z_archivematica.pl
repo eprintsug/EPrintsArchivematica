@@ -1,7 +1,7 @@
 #
 # Archivematica Bazaar Package
 #
-# Version 0.1
+# Version 1.2
 #
 
 use EPrints::DataObj::Archivematica;
@@ -78,6 +78,7 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 			if( $a->get_value( "is_dirty" ) == 0 )
 			{
 				$a->set_value( "is_dirty", 'TRUE' );
+				$a->add_to_record_log( "info", "trigger new transfer", "success" );
 				#$a->commit();
 				#print STDERR "trigger: set archivematica entry as dirty\n";
 			}
@@ -88,11 +89,13 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 		{
 			# create a new entry
 			#print STDERR "trigger: create new archivematica entry\n";
-			$session->dataset( "archivematica" )->create_dataobj({
+			my $am=$session->dataset( "archivematica" )->create_dataobj({
 				datasetid => "eprint",
 				dataobjid => $eprint->id,
 				is_dirty => 'TRUE',
 			});
+			$am->add_to_record_log( "create_transfer", "created", "success" );
+			$am->commit();
 		}
 	}
  	return EP_TRIGGER_OK;

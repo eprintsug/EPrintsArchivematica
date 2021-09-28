@@ -82,6 +82,7 @@ if( $list->count() )
   # just the first one
   my $obj = $list->item(0);
   $obj->set_value( "uuid", $uuid );
+  $obj->add_to_record_log( "set_uuid", "UUID:[".$uuid."]", "success" );
   $obj->commit();
 }
 

@@ -20,6 +20,8 @@
 <epp:phrase id="archivematica_fieldopt_result_log_action_update_transfer">Transfer Updated</epp:phrase>
 <epp:phrase id="archivematica_fieldopt_result_log_action_process_transfer">Transfer Processed</epp:phrase>
 <epp:phrase id="archivematica_fieldopt_result_log_action_info">Information</epp:phrase>
+<epp:phrase id="archivematica_fieldopt_result_log_action_set_uuid">Transfer Archived</epp:phrase>
+
 
 <epp:phrase id="archivematica_fieldopt_result_log_result_success">Success</epp:phrase>
 <epp:phrase id="archivematica_fieldopt_result_log_result_fail">Failure</epp:phrase> <!-- decide which to use -->
