@@ -38,7 +38,8 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 {
 	my( %args ) = @_;
 	my( $session, $eprint, $changed ) = @args{qw( repository dataobj changed )};
-
+	my $status = $eprint->value("eprint_status");
+	
  	## To Do ##
  	# Establish what has changed... and decide if we need to process a new Archivematica
  	# transfer... create a new Archivematica record if this EPrint doesn't already have 
@@ -47,58 +48,58 @@ $c->add_dataset_trigger( 'eprint', EPrints::Const::EP_TRIGGER_AFTER_COMMIT, sub
 #use Data::Dumper;
 #print STDERR Dumper( $changed ) . "\n";
  	
-	my $action_required = 0;
-	foreach my $f ( @{ $c->{DPExport}->{trigger_fields}->{meta_fields} } )
-	{
-		if( defined $changed->{ $f } )
+	#Act only on live eprints, not what is in workarea and buffer
+	if ($status eq "archive"){
+	
+		my $action_required = 0;
+		foreach my $f ( @{ $c->{DPExport}->{trigger_fields}->{meta_fields} } )
 		{
-			print STDERR "New Archivematica transfer required due to field '$f' changes\n";
-			$action_required = 1;
-    			# last;
-  		}
-	}
-
-	if( $action_required )
-	{
-		# create an archivematica record for this item if one doesnt exist
-		# an offline script can run over these and generate exports (and zip files)
-
-		my $ds = $session->dataset( "archivematica" );
-		my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-		$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
-		$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprint->id, "EQ" );
-		my $list = $searchexp->perform_search;
-
-		if( $list && $list->count() > 0 )
-		{
-			#print STDERR "trigger: use existing archivematica entry\n";
-			# take the first result and set is_dirty if its not already set
-			my $a = $list->item(0);
-			$a->add_to_record_log( "info", "updating", "success" );
-			if( $a->get_value( "is_dirty" ) == 0 )
+			if( defined $changed->{ $f } )
 			{
-				$a->set_value( "is_dirty", 'TRUE' );
-				$a->add_to_record_log( "info", "trigger new transfer", "success" );
-				#$a->commit();
-				#print STDERR "trigger: set archivematica entry as dirty\n";
+				#print STDERR "New Archivematica transfer required due to field '$f' changes\n";
+				$action_required = 1;
+					# last;
 			}
-			$a->commit();
+		}
 
-		}
-		else
+		if( $action_required)
 		{
-			# create a new entry
-			#print STDERR "trigger: create new archivematica entry\n";
-			my $am=$session->dataset( "archivematica" )->create_dataobj({
-				datasetid => "eprint",
-				dataobjid => $eprint->id,
-				is_dirty => 'TRUE',
-			});
-			$am->add_to_record_log( "create_transfer", "created", "success" );
-			$am->commit();
+			# create an archivematica record for this item if one doesnt exist
+			# an offline script can run over these and generate exports (and zip files)
+
+			my $ds = $session->dataset( "archivematica" );
+			my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
+			$searchexp->add_field( $ds->get_field( "datasetid" ), "eprint", "EQ" );
+			$searchexp->add_field( $ds->get_field( "dataobjid" ), $eprint->id, "EQ" );
+			my $list = $searchexp->perform_search;
+
+			if( $list && $list->count() > 0 )
+			{
+				#print STDERR "trigger: use existing archivematica entry\n";
+				# take the first result and set is_dirty if its not already set
+				my $a = $list->item(0);
+				if( $a->get_value( "is_dirty" ) eq 'FALSE' )
+				{
+					$a->set_value( "is_dirty", 'TRUE' );
+					$a->add_to_record_log( "info", "trigger new transfer", "success" );
+					$a->commit();
+				}
+			}
+			else
+			{
+				# create a new entry
+				#print STDERR "trigger: create new archivematica entry\n";
+				my $am=$session->dataset( "archivematica" )->create_dataobj({
+					datasetid => "eprint",
+					dataobjid => $eprint->id,
+					is_dirty => 'TRUE',
+				});
+				$am->add_to_record_log( "create_transfer", "created via trigger", "success" );
+				$am->commit();
+			}
 		}
+	
 	}
  	return EP_TRIGGER_OK;
 });
-
 
