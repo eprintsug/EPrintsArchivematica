@@ -13,6 +13,9 @@ $c->{plugins}{"Screen::Archivematica::Export"}{params}{disable} = 0;
 $c->{plugins}{"Export::Archivematica"}{params}{disable} = 0;
 $c->{plugins}{"Export::Archivematica::EPrint"}{params}{disable} = 0;
 
+# Hide from public interface
+$c->{plugins}->{"Export::Archivematica::EPrint"}->{params}->{visible} = "staff";
+
 # Add new dataset for tracking archivematica events
 $c->{datasets}->{archivematica} = {
 	class => "EPrints::DataObj::Archivematica",
