@@ -59,6 +59,7 @@ my $datasetid = 'eprint'; # default to eprint
 my $dataobjid = '';
 my $help = 0;
 my $man = 0;
+my $limit=0;
 
 Getopt::Long::Configure("permute");
 
@@ -69,6 +70,7 @@ GetOptions(
         'verbose+' => \$verbose,
         'datasetid=s' => \$datasetid,
         'dataobjid=s' => \$dataobjid,
+		'limit=s' => \$limit,
         'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "process_transfers" ) if $version;
@@ -115,7 +117,7 @@ $list->map( sub {
 	$a_searchexp->add_field( $a_ds->get_field( "dataobjid" ), $obj->id, "EQ" );
 	my $a_list = $a_searchexp->perform_search;
 
-	# return if $created > 5;
+	if ($limit != 0) {return if $created >= $limit;}
 	if( !$a_list || $a_list->count() == 0 )
 	{
 		print "Creating record for: " . $obj->id . "\n" if $verbose;

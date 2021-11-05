@@ -71,6 +71,8 @@ my $dataobjid = '';
 my $quiet = 0;
 my $help = 0;
 my $man = 0;
+my $limit=0;
+
 
 Getopt::Long::Configure("permute");
 
@@ -83,6 +85,7 @@ GetOptions(
         'quiet' => \$quiet,
         'datasetid=s' => \$datasetid,
         'dataobjid=s' => \$dataobjid,
+		'limit=s' => \$limit,
         'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "process_transfers" ) if $version;
@@ -128,8 +131,11 @@ my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
 
 # Export all the is_dirty = TRUE records, setting is_dirty = FALSE as we go.
 print "Found " . $list->count() . " records to process.\n" if $verbose;
+my $processed = 0;
 $list->map( sub {
 	my( $session, $dataset, $am ) = @_;
+	
+	if ($limit != 0) {return if $processed >= $limit;}
 
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
 
@@ -165,10 +171,10 @@ $list->map( sub {
 			exit(1); # cancel everything else
 		}
 	}
-
+	$processed++;
 	$am->set_value( "is_dirty", 'FALSE' );
         $am->add_to_record_log( "process_transfer", $warnings."exported", "success" );
 	$am->commit();
 });
-
+print "Processed $processed records\n" if $verbose;
 $session->terminate();

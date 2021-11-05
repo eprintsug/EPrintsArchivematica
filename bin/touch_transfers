@@ -55,6 +55,8 @@ my $datasetid = 'eprint'; # default to eprint
 my $dataobjid = '';
 my $help = 0;
 my $man = 0;
+my $limit=0;
+
 
 Getopt::Long::Configure("permute");
 
@@ -64,6 +66,7 @@ GetOptions(
         'verbose+' => \$verbose,
         'datasetid=s' => \$datasetid,
         'dataobjid=s' => \$dataobjid,
+		'limit=s' => \$limit,
         'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "touch_transfers" ) if $version;
@@ -98,14 +101,18 @@ my $plugin = $session->plugin( "Export::Archivematica::EPrint" );
 my $list = $searchexp->perform_search;
 
 print "Found " . $list->count() . " records to process.\n" if $verbose;
+my $processed = 0;
+
 $list->map( sub {
 	my( $session, $dataset, $am ) = @_;
+	
+	if ($limit != 0) {return if $processed >= $limit;}
 
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
-
 	$am->set_value( "is_dirty", 'TRUE' );
 	$am->add_to_record_log( "info", "trigger new transfer", "success" );
 	$am->commit();
+	$processed++;
 });
-
+print "Processed $processed records\n" if $verbose;
 $session->terminate();
