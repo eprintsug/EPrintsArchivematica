@@ -44,7 +44,17 @@ https://spectrum.library.concordia.ca/983933/
 
 **process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  
 
-All three of these scripts can also take an optional parameter to limit the operation to a specific EPrintID.  This is especially useful for testing or troubleshooting the export of a specific eprint.
+All three of these scripts can also take an optional parameter to limit the operation to a specific EPrintID.  This is especially useful for testing or troubleshooting the export of a specific eprint.  For example, to limit to eprintid 1:
+
+./create_transfers REPOID --dataobj=1 
+
+All three of these scripts can also take an optional parameter to limit the number of records it will process before exiting. For example, to create up-to 10 archivematica records for those that are missing: 
+
+./create_transfers REPOID --limit=10
+
+All three of these scripts can also take the optional --verbose argument, to make the output more detailed.  For example:
+
+./create_transfers REPOID --verbose --limit=5
 
 ## Config Files:
 
