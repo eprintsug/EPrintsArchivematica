@@ -173,7 +173,7 @@ $list->map( sub {
 	}
 	$processed++;
 	$am->set_value( "is_dirty", 'FALSE' );
-        $am->add_to_record_log( "process_transfer", $warnings."exported", "success" );
+        $am->add_to_record_log( "process_transfer", $warnings."processed", "success" );
 	$am->commit();
 });
 print "Processed $processed records\n" if $verbose;

@@ -26,8 +26,8 @@ $c->{datasets}->{archivematica} = {
 push @{$c->{user_roles}->{admin}}, qw{ +archivematica/view +archivematica/destroy archive/eprint archivematica/export };
 
 # Set archivematica transfer location
-$c->{archivematica}->{path} = $c->{archiveroot}.'/archivematica';
-
+$c->{archivematica}->{path} = '/opt/eprints3/var/archivematica/test';
+$c->{archivematica}->{metadata_only_path} = '/opt/eprints3/var/archivematica/metadata-only';
 
 # Automatically generate missing checksums in EPrints database during export
 $c->{DPExport}->{add_missing_checksums} = 1;

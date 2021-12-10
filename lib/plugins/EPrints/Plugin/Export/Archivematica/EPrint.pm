@@ -39,9 +39,28 @@ sub output_dataobj
 
 	my $amid = $opts{amid};
 	my @results = $self->_log("Export", "start $amid", 1);
+	
+	# get the main, non-volatile documents
+	my @docs = $dataobj->get_all_documents;
+	my $numDocs = scalar @docs;
 
 	# create directory to store exported files
 	my $target_path = $session->config( "archivematica", "path" ) . "/$amid";
+	
+	# for metadata only records, export these in a designated folder if set, skip if metadata_only_path not set
+	if ($numDocs eq 0){
+		push @results, $self->_log("WARNING - No Documents", "Metadata Only Record", 2);
+		# if metadata_only_path not set, output warning and skip over and do not export anything out for this one
+		if (defined $session->config( "archivematica", "metadata_only_path") && $session->config( "archivematica", "metadata_only_path") ne "" ){
+			#export metadata only record into designated folder
+			$target_path = $session->config( "archivematica", "metadata_only_path" ) . "/$amid";
+		}
+		else {
+			push @results, $self->_log("metadata_only_path not set", "Skipping", 2);
+			return @results;
+		}
+	}
+	
 	my $objects_path = "$target_path/objects";
 	my $metadata_path = "$target_path/metadata";	
 
@@ -55,8 +74,7 @@ sub output_dataobj
 
 	my %hash_cache;	# store checksums to save recalculating them
 
-	# get the main, non-volatile documents
-	my @docs = $dataobj->get_all_documents;
+	
 	foreach my $doc ( @docs )
 	{
 		# create a directory for each doc
