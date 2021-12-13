@@ -60,6 +60,17 @@ All three of these scripts can also take the optional --verbose argument, to mak
 
 * /archives/REPOID/cfg/cfg.d/z_archivematica.pl   (set where the Archivematica transfer folder is in this file, this is where exports are written to)
 
+### Export Folder Locations:
+
+You will need to set the two folder locations in z_archivematica.pl:
+
+`$c->{archivematica}->{path} = '/opt/eprints3/var/archivematica/test';`
+
+`$c->{archivematica}->{metadata_only_path} = '/opt/eprints3/var/archivematica/metadata-only';`
+
+{path} is where the plugin will export the packages for Archivematica to transfer from. 
+
+{metadata_only_path} is where the plugin will export metadata-only records it encounters.  If you set this to "" or leave it undefined, the plugin will not export matadata-only records to the file system.
 
 # Summary
 
@@ -114,18 +125,21 @@ Example:
 For files with MD5 values already recorded in the EPrints database, use these values in the manifest.  For these values already recorded in EPrints database, they should be checked (ie., recalculated for the file and compared to what is stored in EPrints) signalling an error if there is a mismatch.  These errors indicate that file corruption may have already taken place.  There should be a configuration option to control what happens in case of a checksum mismatch:
 
 $c->{DPExport}={on-checksum-mismatch}=skip-proceed|halt 
+NOTE: this option is not yet implemented, current default behaviour for checksum mismatch (not checksum missing) is to halt
 
 skip-proceed should be the default, meaning that the problematic eprint is flagged with an error in the eprint's digital preservation errors field, but the batch job continues.  If 'halt' is chosen, the entire batch job that the problematic eprint is a part of halts.
 
 In addition, there should be an option to communicate checksum-mismatch error by email:
-
 $c->{DPExport}={on-checksum-mismatch-email-notification}= 1|0
+
+NOTE: this option is not yet implemented
 
 It should be set to 0 by default, and if set to 1, in addition to the problematic eprint not exporting, an email with the error information is sent to the address selected in the following config:
 
 $c->{DPExport}={DP-admin-email}="[email address]"
+NOTE: this option is not yet implemented
 
-### Files with no MD5 value in the EPrints database
+### Files with no MD5 value in the EPrints database - Checksum Missing
 
 The following option is used to control if the export routines generate the missing checksum and add it to the EPrints database:
 
@@ -146,27 +160,12 @@ An EPrintsArchivematica preservation management screen allows the administrator 
 
 ## Preservation Triggers
 
-Plugin configuration file will include a list of metadata elements who's change would flag an eprint as in need of preservation. For example:
+Plugin configuration file will include a list of metadata elements who's change would flag an eprint as in need of preservation. 
+Default triggers:
 
-$c->{DPExport}= {trigger_fields => [{ meta_fields => [ "title" ] }]}
-
-In addition, the configuration file will include a list of trigger_events that take place on an eprint which flag it as in need of preservation.  For example:
-
-$c->{DPExport}= {trigger_events => [{ events => ["FilesModified"] }]}
-
-It should be possible to configure to flag an item for preservation every time it is moved to "archive" (either from an event or through the appearance of a "datestamp" meta_field).
+$c->{DPExport}->{trigger_fields}->{meta_fields} = [ qw/ title creators_name creators_id fileinfo / ]; 
 
 There should be a command line bin script that will export entire "live" archive dataset, or a list of eprintIDs.
-
-The configuration file should specify if the preservation actions (preservation of eprints flagged as in need of preservation) should be performed in batches or asap (as soon as change occurs):
-
-$c->{DPExport}=>{perform_preservation} = asap|batch
-
-In addition, an option should specify when the batch processing should take place:
-
-$c->{DPExport}=>{perform_preservation_batch} = #use cron time string format to specify time
-
-Batch process all eprints flagged for preservation at the same time each night/week/month/year
 
 ## Archivematica Sending Information Back to EPrints
 
