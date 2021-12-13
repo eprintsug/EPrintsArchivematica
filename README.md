@@ -28,6 +28,12 @@ The OR2018 presentation is available here:
 Neugebauer, Tomasz , Simpson, Justin and Bradley, Justin (2018) Digital Preservation through EPrints-Archivematica Integration. In: International Conference on Open Repositories, June 3-7, 2018, Bozeman, Montana, USA
 https://spectrum.library.concordia.ca/983933/
 
+# Bazaar Plugin
+
+Bazaar plugin (version 1.2.1) EPM now available here: 
+
+https://bazaar.eprints.org/1200/
+
 # Usage
 
 ## BIN Scripts:
@@ -125,6 +131,7 @@ Example:
 For files with MD5 values already recorded in the EPrints database, use these values in the manifest.  For these values already recorded in EPrints database, they should be checked (ie., recalculated for the file and compared to what is stored in EPrints) signalling an error if there is a mismatch.  These errors indicate that file corruption may have already taken place.  There should be a configuration option to control what happens in case of a checksum mismatch:
 
 $c->{DPExport}={on-checksum-mismatch}=skip-proceed|halt 
+
 NOTE: this option is not yet implemented, current default behaviour for checksum mismatch (not checksum missing) is to halt
 
 skip-proceed should be the default, meaning that the problematic eprint is flagged with an error in the eprint's digital preservation errors field, but the batch job continues.  If 'halt' is chosen, the entire batch job that the problematic eprint is a part of halts.
@@ -137,6 +144,7 @@ NOTE: this option is not yet implemented
 It should be set to 0 by default, and if set to 1, in addition to the problematic eprint not exporting, an email with the error information is sent to the address selected in the following config:
 
 $c->{DPExport}={DP-admin-email}="[email address]"
+
 NOTE: this option is not yet implemented
 
 ### Files with no MD5 value in the EPrints database - Checksum Missing
