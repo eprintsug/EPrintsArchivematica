@@ -14,6 +14,8 @@ use Digest::MD5 qw(md5_hex);
 use JSON::PP;
 use Data::Dumper;
 
+use Encode;
+
 
 @ISA = ( "EPrints::Plugin::Export::Archivematica" );
 
@@ -449,7 +451,7 @@ sub _read_dir
 	}
 	elsif( -f $path ) # we have a file
 	{
-		push @$file_paths, $path;
+		push @$file_paths, decode( 'utf8', $path );
 		return $file_paths;
 	}	
 }
