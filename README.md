@@ -30,9 +30,9 @@ https://spectrum.library.concordia.ca/983933/
 
 # Bazaar Plugin
 
-Bazaar plugin (version 1.2.1) EPM now available here: 
+Bazaar plugin (version 1.2.2) EPM now available here: 
 
-https://bazaar.eprints.org/1200/
+https://bazaar.eprints.org/1206/
 
 # Usage
 
