@@ -95,6 +95,7 @@ sub output_dataobj
 		
 			# and copy the file into the new file dir
 			my $filename = $file->get_value( "filename" );
+			$filename =~ s/\x27/=0027/g;
 			my $local_path = $doc->local_path . "/" . $filename;
 
 			my $h = $file->get_value( 'hash' );
@@ -115,7 +116,10 @@ sub output_dataobj
 			my $ht = $file->get_value( 'hash_type' );
 
 			$hash_cache{ "$file_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
-			my $ok = copy($local_path, "$file_path/$filename"); # or warn "Copy failed: $!";
+			my $ok = copy($local_path, "$file_path/$filename"); 
+			if (! $ok) {# or warn "Copy failed: $!";
+				push @results, $self->_log("Error - COPY failed", "$!", 2);
+				} 
 			push @results, $self->_log("Copy", "'$local_path' '$file_path/$filename'", $ok);
 		}
 	}
