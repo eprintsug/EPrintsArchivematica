@@ -404,10 +404,10 @@ sub output_dataobj
 		}
 
 		# if( $digest eq "b279ef4488a7d6c12d4e95c5249389f2" ) { $ok = 0 } # fake up a checksum error - justin
-                push @results, $self->_log("Manifest", "Checksum correct for '$file_path$info' ($digest)", $ok) if $ok == 1;
-                push @results, $self->_log("Manifest", "Checksum error for '$file_path$info' ($digest)", $ok) if $ok == 0;
+		push @results, $self->_log("Manifest", "Checksum correct for '$file_path$info' ($digest)", $ok) if $ok == 1;
+		push @results, $self->_log("Manifest", "Checksum error for '$file_path$info' ($digest)", $ok) if $ok == 0;
 
-		print $manifest_fh $digest . "  " . $relativePath . $info . "\n";
+		print $manifest_fh $digest . "  " . encode( 'utf8', $relativePath ) . $info . "\n";
 	}
 	close $manifest_fh;
 
