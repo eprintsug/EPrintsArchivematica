@@ -56,7 +56,7 @@ my $dataobjid = '';
 my $help = 0;
 my $man = 0;
 my $limit=0;
-
+my $unset = 0;
 
 Getopt::Long::Configure("permute");
 
@@ -67,6 +67,7 @@ GetOptions(
         'datasetid=s' => \$datasetid,
         'dataobjid=s' => \$dataobjid,
 		'limit=s' => \$limit,
+		'unset' => \$unset,
         'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "touch_transfers" ) if $version;
@@ -76,6 +77,13 @@ pod2usage( 2 ) if( @ARGV < 1 );
 
 my $noise = 1;
 $noise = 1+$verbose if( $verbose );
+
+#Look for is_dirty FALSE and set to TRUE by default
+my $setSearchFlag = 'FALSE';
+my $setNeedUpdateTo = 'TRUE';
+#Look for is_dirty TRUE and set to FALSE if unset parameter
+$setSearchFlag = 'TRUE' if ($unset);
+$setNeedUpdateTo = 'FALSE' if ($unset);
 
 my $repoid = shift(@ARGV);
 my $session = new EPrints::Session( 1 , $repoid , $noise );
@@ -87,7 +95,7 @@ if( !defined $session )
 
 my $ds = $session->dataset( "archivematica" );
 my $searchexp = new EPrints::Search( session=>$session, dataset=>$ds );
-$searchexp->add_field( $ds->get_field( "is_dirty" ), 'FALSE', "EQ" ) unless $force;
+$searchexp->add_field( $ds->get_field( "is_dirty" ), $setSearchFlag, "EQ" ) unless $force;
 
 if( $datasetid && $dataobjid )
 {
@@ -109,8 +117,10 @@ $list->map( sub {
 	if ($limit != 0) {return if $processed >= $limit;}
 
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
-	$am->set_value( "is_dirty", 'TRUE' );
-	$am->add_to_record_log( "info", "trigger new transfer", "success" );
+
+	$am->set_value( "is_dirty", $setNeedUpdateTo );
+	$am->add_to_record_log( "info", "trigger new transfer", "success" ) if (!$unset);
+	$am->add_to_record_log( "info", "unset transfer", "success" ) if ($unset);
 	$am->commit();
 	$processed++;
 });
