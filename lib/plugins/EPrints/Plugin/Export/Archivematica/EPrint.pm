@@ -97,6 +97,7 @@ sub output_dataobj
 			my $filename = $file->get_value( "filename" );
 			$filename =~ s/\x27/=0027/g;
 			$filename =~ s/\x22/=0022/g;
+			$filename =~ s/\x3a/=003a/g;
 			my $local_path = $doc->local_path . "/" . $filename;
 
 			my $h = $file->get_value( 'hash' );
