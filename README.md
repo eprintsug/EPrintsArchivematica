@@ -46,7 +46,9 @@ https://bazaar.eprints.org/1206/
 
 **create_transfers** will create the missing archivematica dataset records for all live eprints.  (You’ll have to edit the script if you want review instead of archive.)
 
-**touch_transfers** will set is_dirty=1 on all existing archivematica records where its not already set.
+**touch_transfers** will set is_dirty=TRUE on those existing archivematica records where its not already set.  Optionally, adding the flag --unset does the reverse: sets is_dirty=FALSE on those records that have is set to TRUE.  
+
+./touch_transfers REPOID --dataobj=1 --unset
 
 **process_transfers** exports all eprints to archivematica that are flagged as "is_dirty".  
 
