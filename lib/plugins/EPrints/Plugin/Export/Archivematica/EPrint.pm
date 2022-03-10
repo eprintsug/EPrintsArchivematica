@@ -86,6 +86,8 @@ sub output_dataobj
 		# and create a files directory in the doc directory
 		my $files_path = "$doc_path/files";
 		$self->_make_dir( $files_path );
+		
+		my $docid = $doc->get_value( "docid" );
 
 		# and then create a file directory for each file
 		foreach my $file ( @{$doc->get_value( "files" )} )
@@ -95,6 +97,8 @@ sub output_dataobj
 		
 			# and copy the file into the new file dir
 			my $filename = $file->get_value( "filename" );
+			my $fileid = $file->get_value ("fileid");
+			my $filesize = $file->get_value("filesize");
 			$filename =~ s/\x27/=0027/g;
 			$filename =~ s/\x22/=0022/g;
 			$filename =~ s/\x3a/=003a/g;
@@ -122,7 +126,7 @@ sub output_dataobj
 			if (! $ok) {# or warn "Copy failed: $!";
 				push @results, $self->_log("Error - COPY failed", "$!", 2);
 				} 
-			push @results, $self->_log("Copy", "'$local_path' '$file_path/$filename'", $ok);
+			push @results, $self->_log("Copy", "'$local_path' '$file_path/$filename' (fileid:$fileid docid:$docid hash:$h filesize:$filesize)", $ok);
 		}
 	}
 
@@ -136,8 +140,9 @@ sub output_dataobj
 		@docs = @{$dataobj->get_value( "documents" )};
 		foreach my $doc ( @docs )
 		{
+			
 			next unless $doc->has_relation( undef, "isVolatileVersionOf" );
-
+			my $docid = $doc->get_value( "docid" );
 			# and create a files directory in the doc directory
 			my $pos = $doc->get_value( "pos" );
 	                my $pos_path = "$derivatives_path/$pos";
@@ -147,6 +152,8 @@ sub output_dataobj
         	        foreach my $file ( @{$doc->get_value( "files" )} )
                 	{
 	                        my $filename = $file->get_value( "filename" );
+							my $fileid = $file->get_value ("fileid");
+							my $filesize = $file->get_value("filesize");
         	                my $file_path = $doc->local_path . "/" . $filename;
 
 				my $h = $file->get_value( "hash" );
@@ -167,7 +174,7 @@ sub output_dataobj
 
 				$hash_cache{ "$pos_path/$filename" } = $h if $h && $ht && $ht eq "MD5";
 				my $ok = copy($file_path, "$pos_path/$filename"); # or warn "Copy failed: $!";
-				push @results, $self->_log("Copy", "'$file_path' '$pos_path/$filename'", $ok);
+				push @results, $self->_log("Copy", "'$file_path' '$pos_path/$filename' (fileid:$fileid docid:$docid hash:$h filesize:$filesize)", $ok);
 	                }
 		}
 	}
