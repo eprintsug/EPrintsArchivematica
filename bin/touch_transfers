@@ -57,6 +57,7 @@ my $help = 0;
 my $man = 0;
 my $limit=0;
 my $unset = 0;
+my $delete = 0;
 
 Getopt::Long::Configure("permute");
 
@@ -68,6 +69,7 @@ GetOptions(
         'dataobjid=s' => \$dataobjid,
 		'limit=s' => \$limit,
 		'unset' => \$unset,
+		'delete' => \$delete,
         'force' => \$force,
 ) || pod2usage( 2 );
 EPrints::Utils::cmd_version( "touch_transfers" ) if $version;
@@ -117,12 +119,27 @@ $list->map( sub {
 	if ($limit != 0) {return if $processed >= $limit;}
 
 	print "Processing Archivematica ID: " . $am->id . "\n" if $verbose;
-
-	$am->set_value( "is_dirty", $setNeedUpdateTo );
-	$am->add_to_record_log( "info", "trigger new transfer", "success" ) if (!$unset);
-	$am->add_to_record_log( "info", "unset transfer", "success" ) if ($unset);
-	$am->commit();
+	
+	if ($delete){
+		my $ok=$am->delete();
+		if ($ok) {
+			print "Deleted transfer record." 
+		}
+		else{
+			print "Attempted, but failed deletion of transfer record."
+		}
+	}
+	else{
+		$am->set_value( "is_dirty", $setNeedUpdateTo );
+		$am->add_to_record_log( "info", "trigger new transfer", "success" ) if (!$unset);
+		$am->add_to_record_log( "info", "unset transfer", "success" ) if ($unset);
+		$am->commit();
+	}
+	
+	
 	$processed++;
 });
-print "Processed $processed records\n" if $verbose;
+my $action = "Processed";
+$action = "Deleted" if $delete;
+print "$action $processed records\n" if $verbose;
 $session->terminate();
