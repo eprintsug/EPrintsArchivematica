@@ -13,7 +13,7 @@ Table of Contents
       * [Derivatives](#derivatives)
       * [Checksum manifest](#checksum-manifest)
       	 * [Checksum Mismatch](#checksum-mismatch)
-      	 * [Files with no MD5 value in the EPrints database](#files-with-no-md5-value-in-the-eprints-database) 
+      	 * [Files with no MD5 value in the EPrints database](#files-with-no-md5-value-in-the-eprints-database---checksum-missing) 
       * [Preservation Management Screen](#preservation-management-screen)
       * [Preservation Triggers](#preservation-triggers)
       * [Archivematica Sending Information Back to EPrints](#archivematica-sending-information-back-to-eprints)
