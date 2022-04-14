@@ -20,6 +20,7 @@ $c->{plugins}->{"Export::Archivematica::EPrint"}->{params}->{visible} = "staff";
 $c->{datasets}->{archivematica} = {
 	class => "EPrints::DataObj::Archivematica",
 	sqlname => "archivematica",
+	index => 1
 };
 
 # Set user roles (edit not allowed as should only be updated by EPrints and export results
