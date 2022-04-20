@@ -100,11 +100,7 @@ You will need to set the two folder locations in z_archivematica.pl:
 
 ### Transfer Folder Prefix
 
-The following configuration option can be used to prepend a string to all of the exported transfer folder names:
-
-`$c->{DPExport}->{transfer_prefix} = "";`
-
-For example:
+The transfer_prefix configuration is optional, as the plugin will work with this being set to empty string or not present, in which case the root folder name will continue to be the AMID.  The transfer_prefix configuration option can be used to prepend a string to all of the exported transfer folder names, for example:
 
 `$c->{DPExport}->{transfer_prefix} = "MYREPO";`
 
