@@ -43,9 +43,40 @@ $session->send_http_header( content_type => "text/json" );
 
 my $amid = $session->param( "amid" );
    $amid = $json->{"amid"} if $json && $json->{"amid"};
+   
+if( !$amid )
+{
+  print '[{ error: "No amid parameter specified in the JSON" }]';
+  $session->terminate;
+  exit( 0 );
+}
+   
+   #extract prefix if one is set, search for string before - 
+my $prefix_received = $amid;
+   $prefix_received =~ s/-.*$//g; #ignore all after -
+   
    #ignore instances when Archivematica assigns a version number to the amid using the underscore, for example: 1_4, the amid is still 1
    $amid =~ s/_.*$//g; #ignore underscore version
    $amid =~ s/[^0-9]//g; # digits only
+  
+#check for prefix mismatch
+#if there is a non-empty prefix defined in the settings, it should match what we received
+if ((defined $session->config( 'DPExport', 'transfer_prefix' ) ) && ($session->config( 'DPExport', 'transfer_prefix' ) ne "")){
+		if( $session->config( 'DPExport', 'transfer_prefix' ) ne $prefix_received )
+		{
+		  print '[{ error: "Prefix received '.$prefix_received.' does not match prefix configured. Ignore call." }]';
+		  $session->terminate;
+		  exit( 0 );
+		}
+}
+#there is either empty or not-defined prefix - check to make sure that we didn't receive one, if we did, it's a mismatch
+else{
+	if ($prefix_received ne $amid){
+		print '[{ error: "Prefix received, but no prefix configured. Ignore call." }]';
+		$session->terminate;
+		exit( 0 );
+		}
+}
 
 my $uuid = $session->param( "uuid" );
    $uuid = $json->{"uuid"} if $json && $json->{"uuid"};
@@ -60,7 +91,7 @@ if( ! $session->current_user->has_role( "archivematica/export" ) )
 
 if( !$amid )
 {
-  print '[{ error: "No amid specified" }]';
+  print '[{ error: "No amid number could be extracted." }]';
   $session->terminate;
   exit( 0 );
 }

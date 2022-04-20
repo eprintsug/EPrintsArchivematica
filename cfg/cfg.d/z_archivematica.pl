@@ -33,6 +33,9 @@ $c->{archivematica}->{metadata_only_path} = '/opt/eprints3/var/archivematica/met
 # Automatically generate missing checksums in EPrints database during export
 $c->{DPExport}->{add_missing_checksums} = 1;
 
+# Optional PREFIX for transfer folder names.  Use letters only, no numbers or special symbols such as - or _
+$c->{DPExport}->{transfer_prefix} = "";
+
 # Include Derivatives?
 $c->{DPExport}->{include_derivatives} = 1;
 

@@ -41,13 +41,21 @@ sub output_dataobj
 
 	my $amid = $opts{amid};
 	my @results = $self->_log("Export", "start $amid", 1);
+
+	my $prefix = "";
+	
+	if (defined $session->config( 'DPExport', 'transfer_prefix' ) ){
+		if ($session->config( 'DPExport', 'transfer_prefix' ) ne "") {
+			$prefix = $session->config( 'DPExport', 'transfer_prefix' )."-";
+			}
+	}
 	
 	# get the main, non-volatile documents
 	my @docs = $dataobj->get_all_documents;
 	my $numDocs = scalar @docs;
 
 	# create directory to store exported files
-	my $target_path = $session->config( "archivematica", "path" ) . "/$amid";
+	my $target_path = $session->config( "archivematica", "path" ) . "/$prefix$amid";
 	
 	# for metadata only records, export these in a designated folder if set, skip if metadata_only_path not set
 	if ($numDocs eq 0){
@@ -55,7 +63,7 @@ sub output_dataobj
 		# if metadata_only_path not set, output warning and skip over and do not export anything out for this one
 		if (defined $session->config( "archivematica", "metadata_only_path") && $session->config( "archivematica", "metadata_only_path") ne "" ){
 			#export metadata only record into designated folder
-			$target_path = $session->config( "archivematica", "metadata_only_path" ) . "/$amid";
+			$target_path = $session->config( "archivematica", "metadata_only_path" ) . "/$prefix$amid";
 		}
 		else {
 			push @results, $self->_log("metadata_only_path not set", "Skipping", 2);
