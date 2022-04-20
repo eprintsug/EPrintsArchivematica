@@ -8,6 +8,8 @@ Table of Contents
       * [BIN Scripts:](#bin-scripts)
          * [Run these scripts with the command line](#run-these-scripts-with-the-command-line)
       * [Config Files:](#config-files)
+         * [Export Folder Locations](#export-folder-locations)
+         * [Transfer Folder Prefix](#transfer-folder-prefix) 
    * [Summary](#summary)
    * [Implementation details](#implementation-details)
       * [Derivatives](#derivatives)
@@ -95,6 +97,24 @@ You will need to set the two folder locations in z_archivematica.pl:
 {path} is where the plugin will export the packages for Archivematica to transfer from. 
 
 {metadata_only_path} is where the plugin will export metadata-only records it encounters.  If you set this to "" or leave it undefined, the plugin will not export matadata-only records to the file system.
+
+### Transfer Folder Prefix
+
+The following configuration option can be used to prepend a string to all of the exported transfer folder names:
+
+`$c->{DPExport}->{transfer_prefix} = "";`
+
+For example:
+
+`$c->{DPExport}->{transfer_prefix} = "MYREPO";`
+
+Would result in all of the transfer folder names, and resulting AIPs in Archivematica to have the name:
+
+MYREPO-AMID instead of just AMID.
+
+This is useful if you have many repositories and wish to have unique per-repository prefixes in AIP names on shared archival storage.
+
+When the transfer_prefix is set, it is also used to confirm that the AIP name includes the correct prefix in the [Service Callback](#archivematica-sending-information-back-to-eprints), ignoring the callback if the prefix sent by Archivematica doesn't match the configuration.
 
 # Summary
 
