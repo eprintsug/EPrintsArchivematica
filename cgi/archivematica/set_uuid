@@ -50,13 +50,14 @@ if( !$amid )
   $session->terminate;
   exit( 0 );
 }
-   
+
+#ignore instances when Archivematica assigns a version number to the amid using the underscore, for example: 1_4, the amid is still 1
+   $amid =~ s/_.*$//g; #ignore underscore version
+    
    #extract prefix if one is set, search for string before - 
 my $prefix_received = $amid;
    $prefix_received =~ s/-.*$//g; #ignore all after -
    
-   #ignore instances when Archivematica assigns a version number to the amid using the underscore, for example: 1_4, the amid is still 1
-   $amid =~ s/_.*$//g; #ignore underscore version
    $amid =~ s/[^0-9]//g; # digits only
   
 #check for prefix mismatch
