@@ -32,9 +32,19 @@ https://spectrum.library.concordia.ca/983933/
 
 # Bazaar Plugin
 
-Bazaar plugin (version 1.2.2) EPM now available here: 
+Bazaar plugin (version 1.2.3) EPM now available here: 
 
-https://bazaar.eprints.org/1206/
+http://bazaar.eprints.org/1214/
+
+# Upgrading from version 1.2.2 to version 1.2.3
+
+You will have to run: 
+
+./epadmin update REPOID 
+and
+./epadmin reindex REPOID archivematica
+
+after upgrading from version 1.2.2 to version 1.2.3, due to changes to how the archivematica dataset is indexed.
 
 # Usage
 
