@@ -4,6 +4,8 @@ Table of Contents
 =================
 
    * [EPrints - Archivematica Integration](#eprints---archivematica-integration)
+   * [Bazaar Plugin](#bazaar-plugin)
+   * [Upgrading from 1.2.2 to 1.2.3](#upgrading-from-version-122-to-version-123)
    * [Usage](#usage)
       * [BIN Scripts:](#bin-scripts)
          * [Run these scripts with the command line](#run-these-scripts-with-the-command-line)
@@ -41,7 +43,9 @@ http://bazaar.eprints.org/1214/
 You will have to run: 
 
 ./epadmin update REPOID 
+
 and
+
 ./epadmin reindex REPOID archivematica
 
 after upgrading from version 1.2.2 to version 1.2.3, due to changes to how the archivematica dataset is indexed.
