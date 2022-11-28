@@ -32,6 +32,12 @@ The OR2018 presentation is available here:
 Neugebauer, Tomasz , Simpson, Justin and Bradley, Justin (2018) Digital Preservation through EPrints-Archivematica Integration. In: International Conference on Open Repositories, June 3-7, 2018, Bozeman, Montana, USA
 https://spectrum.library.concordia.ca/983933/
 
+The integration specifications have changed somewhat from that original proposal.  The most up-to-date description of the plugin is in the following iPres2022 conference paper:
+
+Neugebauer, Tomasz  and Lake, Sarah (2022) Archivematica-EPrints Integration : Developing Digital Preservation Capacity for Open Repositories. In: 18th International Conference on Digital Preservation, 12th-16th September, 2022, Glasgow, Scotland.
+https://spectrum.library.concordia.ca/id/eprint/991293/
+
+
 # Bazaar Plugin
 
 Bazaar plugin (version 1.2.3) EPM now available here: 
